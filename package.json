@@ -1,0 +1,28 @@
+{
+  "name": "katapult-pro-extended",
+  "version": "1.0.6",
+  "description": "A basic template to design katapult-like website extensions",
+  "type": "module",
+  "main": "/workspaces/external-user-element-package/katapult-pro-extended/src",
+  "dependencies": {
+    "@polymer/font-roboto": "^3.0.2",
+    "@polymer/paper-styles": "^3.0.1",
+    "@shoelace-style/shoelace": "^2.20.1",
+    "lit": "^3.3.0",
+    "spark-md5": "^3.0.2"
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "serve": "web-dev-server --node-resolve --open"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@web/dev-server": "^0.4.6",
+    "@web/dev-server-rollup": "^0.6.4",
+    "@web/rollup-plugin-html": "^2.3.0",
+    "rollup": "^4.44.0"
+  }
+}
