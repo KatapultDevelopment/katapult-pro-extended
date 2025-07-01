@@ -1,6 +1,6 @@
 {
   "name": "katapult-pro-extended",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A basic template to design katapult-like website extensions",
   "type": "module",
   "main": "/workspaces/external-user-element-package/katapult-pro-extended/src",

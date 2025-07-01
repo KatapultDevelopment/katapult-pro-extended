@@ -165,7 +165,7 @@ export class KatapultToolbar extends LitElement {
                         ${when(this.supportNum, () => html`call us at ${this.supportNum}`)}
                         ${when(this.supportNum && this.supportEmail, () => html` or `)}
                         ${when(this.supportEmail,
-                            () => html`email us at <a style="color: var(--primary-color, blue); text-decoration: none;" href="mailto:${this.supportEmail}">${this.supportEmail}</a
+                            () => html`email us at <a style="color: var(--primary-color, var(--sl-color-gray-500)); text-decoration: none;" href="mailto:${this.supportEmail}">${this.supportEmail}</a
                         >`)}.
                     </p>
                 `)}

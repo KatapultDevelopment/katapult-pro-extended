@@ -26,8 +26,9 @@ export class KatapultAuthentication extends LitElement {
         max-width: 330px;
       }
       .link {
-        color: var(--primary-color, blue);
+        color: var(--primary-color, var(--sl-color-gray-500));
         text-decoration: underline;
+        cursor: pointer;
       }
     `
   ]
@@ -99,12 +100,16 @@ export class KatapultAuthentication extends LitElement {
     const inputVal = this.shadowRoot.getElementById('apiKeyInput')?.value;
     if (inputVal) {
       const data = await this.getJobData(inputVal);
-      if (data?.error == 'INVALID API KEY') this.apiError = true;
+      if (data?.error == 'INVALID API KEY') {
+        this.apiError = true;
+      }
       else {
         localStorage.setItem('apiKey', inputVal);
         const event = new CustomEvent('apiKeyChange', { detail: 'data-change' });
         window.dispatchEvent(event);
+        this.validApiKey = true;
       }
+      this.requestUpdate();
     }
   }
   async getJobData(apiKey) {
