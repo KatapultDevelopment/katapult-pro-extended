@@ -26,7 +26,7 @@ export class KatapultAuthentication extends LitElement {
         max-width: 330px;
       }
       .link {
-        color: var(--primary-color, var(--sl-color-gray-500));
+        color: var(--primary-color, blue);
         text-decoration: underline;
         cursor: pointer;
       }

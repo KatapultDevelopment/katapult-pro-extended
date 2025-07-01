@@ -49,7 +49,7 @@ export const SlKatapultStyle = `
         font-size: 24px;
     }
     sl-icon-button::part(base):hover {
-        color: var(--primary-color, black) !important;
+        color: var(--secondary-color, black) !important;
     }
     sl-avatar {
         --size: 30px;
@@ -103,8 +103,8 @@ export const SlKatapultStyle = `
         background-color: var(--primary-color, var(--sl-color-gray-500));
     }
     sl-button[variant='primary']::part(base):hover {
-        background-color: var(--primary-color, var(--sl-color-gray-600));
-        border-color: var(--primary-color, var(--sl-color-gray-600));
+        background-color: var(--secondary-color, var(--sl-color-gray-600));
+        border-color: var(--secondary-color, var(--sl-color-gray-600));
         color: var(--primary-color, var(--sl-color-gray-600));
     }
     sl-button[variant='primary']:hover {
@@ -127,6 +127,9 @@ export const SlKatapultStyle = `
     }
     sl-button[variant='default']::part(label) {
         color: var(--sl-color-gray-600);
+    }
+    sl-button[variant='default']::part(label):hover {
+        color: var(--primary-color, var(--sl-color-gray-600));
     }
     sl-icon[small] {
         font-size: 20px;
