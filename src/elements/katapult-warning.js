@@ -6,11 +6,11 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/alert/alert.js';
 
 // Styles
-import { SlKatapultStyle } from '../styles/sl-katapult-style.js';
+import { KatapultShoelace } from '../styles/katapult-shoelace.js';
 
 export class KatapultWarning extends LitElement {
   static properties = {}
-  static styles = unsafeCSS(SlKatapultStyle)
+  static styles = unsafeCSS(KatapultShoelace)
   render() {
     return html`
       <sl-alert open>

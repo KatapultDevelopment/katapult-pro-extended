@@ -9,8 +9,8 @@ import '@shoelace-style/shoelace/dist/components/input/input.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 
 // Styles
-import { SlKatapultStyle } from '../styles/sl-katapult-style.js';
-import { FlexStyle } from '../styles/flex.js';
+import { KatapultShoelace } from '../styles/katapult-shoelace.js';
+import { KatapultFlex } from '../styles/katapult-flex.js';
 
 export class KatapultAuthentication extends LitElement {
   static properties = {
@@ -19,8 +19,8 @@ export class KatapultAuthentication extends LitElement {
     _currentDb: {type: String, state: true}
   }
   static styles = [
-    unsafeCSS(SlKatapultStyle),
-    unsafeCSS(FlexStyle),
+    unsafeCSS(KatapultShoelace),
+    unsafeCSS(KatapultFlex),
     css`
       #loginForm::part(panel) {
         max-width: 330px;

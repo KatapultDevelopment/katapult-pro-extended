@@ -12,8 +12,8 @@ import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
 
 // Styles
-import { SlKatapultStyle } from '../styles/sl-katapult-style.js';
-import { FlexStyle } from '../styles/flex.js';
+import { KatapultShoelace } from '../styles/katapult-shoelace.js';
+import { KatapultFlex } from '../styles/katapult-flex.js';
 
 export class KatapultJobPicker extends LitElement {
   static properties = {
@@ -25,8 +25,8 @@ export class KatapultJobPicker extends LitElement {
     _currentDb: {type: String}
   }
   static styles = [
-    unsafeCSS(SlKatapultStyle),
-    unsafeCSS(FlexStyle),
+    unsafeCSS(KatapultShoelace),
+    unsafeCSS(KatapultFlex),
     css`
       .set-width {
         width: 312px;

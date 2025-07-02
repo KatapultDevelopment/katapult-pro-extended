@@ -1,6 +1,6 @@
 const $_documentContainer = document.createElement('template');
 
-export const SlKatapultStyle = `
+export const KatapultShoelace = `
 // Default styles for the elements
     :host {
         --header-spacing: 16px !important;
@@ -147,10 +147,10 @@ export const SlKatapultStyle = `
     }
 `;
 
-$_documentContainer.innerHTML = `<dom-module id="sl-katapult-style">
+$_documentContainer.innerHTML = `<dom-module id="katapult-shoelace">
   <template>
     <style>
-      ${SlKatapultStyle}
+      ${KatapultShoelace}
     </style>
   </template>
 </dom-module>`;

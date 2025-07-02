@@ -1,6 +1,6 @@
 const $_documentContainer = document.createElement('template');
 
-export const FlexStyle = `
+export const KatapultFlex = `
   [flex] {
     display: flex;
   }
@@ -111,10 +111,10 @@ export const FlexStyle = `
   }
 `;
 
-$_documentContainer.innerHTML = `<dom-module id="flex">
+$_documentContainer.innerHTML = `<dom-module id="katapult-flex">
   <template>
     <style>
-      ${FlexStyle}
+      ${KatapultFlex}
     </style>
   </template>
 </dom-module>`;

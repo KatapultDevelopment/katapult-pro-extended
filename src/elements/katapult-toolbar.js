@@ -12,8 +12,8 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 
 // Styles
-import { SlKatapultStyle } from '../styles/sl-katapult-style';
-import { FlexStyle } from '../styles/flex';
+import { KatapultShoelace } from '../styles/katapult-shoelace';
+import { KatapultFlex } from '../styles/katapult-flex';
 
 // Hashing
 import 'spark-md5';
@@ -36,8 +36,8 @@ export class KatapultToolbar extends LitElement {
 
   // Styles are applied to the shadow root and scoped to this element
   static styles = [
-    unsafeCSS(SlKatapultStyle),
-    unsafeCSS(FlexStyle),
+    unsafeCSS(KatapultShoelace),
+    unsafeCSS(KatapultFlex),
     css`
     :host {
         display: flex;

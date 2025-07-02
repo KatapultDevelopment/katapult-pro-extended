@@ -6,7 +6,7 @@ import '@polymer/paper-styles/color.js';
 import {LitElement, html, css, unsafeCSS} from 'lit';
 
 // Styles
-import { SlKatapultStyle } from '../../styles/sl-katapult-style.js';
+import { KatapultShoelace } from '../../styles/katapult-shoelace.js';
 
 // Elements
 import '../katapult-job-picker.js';
@@ -25,7 +25,7 @@ export class KatapultPageElement extends LitElement {
     logoLink: {type: String}
   }
   static styles = [
-    unsafeCSS(SlKatapultStyle),
+    unsafeCSS(KatapultShoelace),
     css`
       :root {
         --sl-input-focus-ring-color: none;
