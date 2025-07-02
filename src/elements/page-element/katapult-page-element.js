@@ -101,7 +101,6 @@ export class KatapultPageElement extends LitElement {
         href="https://storage.googleapis.com/katapult-pro-shared-files/photos/favicons/Katapult/safari-pinned-tab.svg"
         color="#003e51"
       />
-      <link rel="shortcut icon" href="https://storage.googleapis.com/katapult-pro-shared-files/photos/favicons/Katapult/favicon.ico" />
       <meta name="theme-color" content="#003E51" />
       <!--End Favicon Code-->
       <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
