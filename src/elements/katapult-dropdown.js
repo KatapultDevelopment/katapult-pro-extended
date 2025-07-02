@@ -104,8 +104,12 @@ export class KatapultDropdown extends LitElement {
 
       /* Sl Menu Item Highlight Style */
       lit-virtualizer > sl-menu-item.highlight::part(base) {
-        background: var(--primary-color, --sl-color-gray-400);
+        background: var(--primary-color, var(--sl-color-gray-400));
         color: var(--sl-color-neutral-0);
+      }
+
+      sl-input::part(clear-button) {
+        color: var(--primary-color, var(--sl-color-gray-400))
       }
 
       .footer {
@@ -208,6 +212,12 @@ export class KatapultDropdown extends LitElement {
                 slot="suffix"
               >
               </sl-icon>
+            `
+          )}
+          ${when(
+            this.clearable,
+            () => html`
+              <sl-icon small library="material" slot="clear-icon" name="clear"></sl-icon>
             `
           )}
         </sl-input>

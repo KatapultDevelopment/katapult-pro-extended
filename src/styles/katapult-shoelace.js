@@ -116,7 +116,7 @@ export const KatapultShoelace = `
     sl-button[variant='default']::part(base):hover {
         border-color: var(--primary-color, var(--sl-color-gray-400));
         color: var(--primary-color, var(--sl-color-gray-600));
-        background: var(--sl-color-gray-50);
+        background: white !important;
     }
     sl-button[variant='default'] {
         color: var(--sl-color-gray-400);
