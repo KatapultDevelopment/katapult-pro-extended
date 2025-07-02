@@ -1,8 +1,5 @@
-import { light } from '@shoelace-style/shoelace/dist/themes/light.styles.js';
 import { css } from 'lit';
 export default css`
-  ${light}
-
   :root,
   :host,
   .sl-theme-light {

@@ -9,7 +9,6 @@ export const KatapultShoelace = `
     }
     sl-dialog::part(panel) {
         border-radius: 16px;
-        --width: fit-content;
     }
     sl-dialog::part(body), sl-dialog::part(footer), sl-dialog::part(title) {
         padding: 16px;
@@ -136,14 +135,6 @@ export const KatapultShoelace = `
     }
     sl-icon[nine-dot] {
         font-size: 30px;
-    }
-
-// Revisit after searchable dropdown completed
-    sl-select::part(combobox) {
-        background: none;
-        border-radius: 0;
-        border: none;
-        border-bottom: 1px solid var(--sl-color-gray-500);
     }
 `;
 

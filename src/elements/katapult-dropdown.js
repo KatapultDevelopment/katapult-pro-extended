@@ -25,9 +25,9 @@ import { KatapultScrollbars } from '../styles/katapult-scrollbars.js';
  * @property {string} [disabled=false]
  */
 
-class KatapultDropdown extends LitElement {
+export class KatapultDropdown extends LitElement {
   static DEFAULT_RENDER_ITEM = function (item, index, arr) {
-    return html` <sl-menu-item value=${item.value} ?disabled=${item.disabled}>${item.label}</sl-menu-item>`;
+    return html` <sl-menu-item value=${item.value} ?disabled=${item?.disabled}>${item.label}</sl-menu-item>`;
   };
 
   static properties = {
@@ -74,12 +74,17 @@ class KatapultDropdown extends LitElement {
       }
 
       sl-dropdown {
+        min-width: 300px;
         height: inherit;
         width: inherit;
       }
 
       sl-menu {
         min-width: 300px;
+      }
+
+      sl-menu-item::part(base) {
+        margin: 2px 0;
       }
 
       lit-virtualizer > * {
@@ -98,13 +103,9 @@ class KatapultDropdown extends LitElement {
       }
 
       /* Sl Menu Item Highlight Style */
-      lit-virtualizer > sl-menu-item.highlight {
-        background: var(--sl-color-primary);
-        color: var(--sl-color-neutral-0);
-      }
       lit-virtualizer > sl-menu-item.highlight::part(base) {
-        background: inherit;
-        color: inherit;
+        background: var(--primary-color, --sl-color-gray-400);
+        color: var(--sl-color-neutral-0);
       }
 
       .footer {
@@ -414,7 +415,11 @@ class KatapultDropdown extends LitElement {
       this._highlightElement?.classList.add('highlight');
     }
 
-    return this.shouldUpdate(this, changedProperties);
+    const updateCalledManually = changedProperties.size == 0;
+    const nonIgnoredPropertiesHaveChanged = Array.from(changedProperties.keys()).some(
+        (prop) => this.constructor.properties[prop].shouldUpdate !== false
+    );
+    return updateCalledManually || nonIgnoredPropertiesHaveChanged;
   }
 
   /**
@@ -450,20 +455,6 @@ class KatapultDropdown extends LitElement {
     if (max == null) max = Infinity;
     if (min == null) min = -Infinity;
     return num > max ? max : num < min ? min : num;
-  }
-
-  /**
- * Determines whether the element should update based on property changes after ignoring any properties with `shouldUpdate` set to false.
- * @param {LitElement} elem The lit element which should may update
- * @param {PropertyValues} changedProperties Map of changed properties with old values
- * @returns {boolean} Whether the element should update or not
- */
-  shouldUpdate(elem, changedProperties) {
-    const updateCalledManually = changedProperties.size == 0;
-    const nonIgnoredPropertiesHaveChanged = Array.from(changedProperties.keys()).some(
-        (prop) => elem.constructor.properties[prop].shouldUpdate !== false
-    );
-    return updateCalledManually || nonIgnoredPropertiesHaveChanged;
   }
   #selectItem(item) {
     if (!item) return;
@@ -536,4 +527,4 @@ class KatapultDropdown extends LitElement {
   }
 }
 
-customElements.define('katapult-dropdown', KatapultDropdown);
+window.customElements.define('katapult-dropdown', KatapultDropdown);

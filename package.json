@@ -1,10 +1,11 @@
 {
   "name": "katapult-pro-extended",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "A basic template to design katapult-like website extensions",
   "type": "module",
   "main": "/workspaces/external-user-element-package/katapult-pro-extended/src",
   "dependencies": {
+    "@lit-labs/virtualizer": "^2.1.0",
     "@polymer/font-roboto": "^3.0.2",
     "@polymer/paper-styles": "^3.0.1",
     "@shoelace-style/shoelace": "^2.20.1",

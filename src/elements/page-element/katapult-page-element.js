@@ -13,6 +13,7 @@ import '../katapult-job-picker.js';
 import '../katapult-toolbar.js';
 import '../katapult-authentication.js';
 import '../katapult-warning.js';
+import '../katapult-dropdown.js';
 
 // Shoelace Icons
 import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library.js';

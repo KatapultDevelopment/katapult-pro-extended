@@ -11,6 +11,9 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/button/button.js';
 import '@shoelace-style/shoelace/dist/components/input/input.js';
 
+// Elements
+import './katapult-dropdown.js';
+
 // Styles
 import { KatapultShoelace } from '../styles/katapult-shoelace.js';
 import { KatapultFlex } from '../styles/katapult-flex.js';
@@ -18,6 +21,7 @@ import { KatapultFlex } from '../styles/katapult-flex.js';
 export class KatapultJobPicker extends LitElement {
   static properties = {
     _jobData: {type: Array, state: true},
+    _jobNames: {type: Array, state: true},
     _refreshAPICheck: {type: Boolean, state: true},
     _apiKey: {type: String},
     _pickerOpened: {type: Boolean, state: true},
@@ -28,8 +32,14 @@ export class KatapultJobPicker extends LitElement {
     unsafeCSS(KatapultShoelace),
     unsafeCSS(KatapultFlex),
     css`
-      .set-width {
-        width: 312px;
+      #job-picker::part(panel) {
+        --width: fit-content;
+      }
+      #job-picker::part(body) {
+        width: fit-content;
+      }
+      #job-picker::part(footer) {
+        width: 100%;
       }
       #job-picker::part(overlay),
       #new-job-dialog::part(overlay) {
@@ -37,7 +47,6 @@ export class KatapultJobPicker extends LitElement {
       }
       #job-picker::part(base),
       #new-job-dialog::part(base) {
-        max-width: fit-content;
         max-height: fit-content;
         margin: auto;
       }
@@ -52,25 +61,26 @@ export class KatapultJobPicker extends LitElement {
         <div slot="header-actions"></div>
         <div flex row align-center>
           ${when(
-            !this.jobData || this.jobData.length == 0,
+            !this.jobNames || this.jobNames.length == 0,
             () => html`
-              <sl-select class="set-width" disabled placeholder="Loading...">
-                <sl-icon library="material" name="arrow_drop_down" slot="expand-icon"></sl-icon>
-              </sl-select>
+              <katapult-dropdown
+                .disabled=${true}
+                .label=${'Select a Job'}
+                .placeholder=${'Loading...'}
+              ></katapult-dropdown>
             `
           )}
           ${when(
-            this.jobData.length > 0,
+            this.jobNames?.length > 0,
             () => html`
-              <sl-select class="set-width" hoist placeholder="Select a Job" value="select_a_job">
-                <sl-icon library="material" name="arrow_drop_down" slot="expand-icon"></sl-icon>
-                ${map(
-                  this.jobData,
-                  (job) => html`
-                    <sl-option>${job.name}</sl-option>
-                  `
-                )}
-              </sl-select>
+              <katapult-dropdown
+                .label=${'Select a Job'}
+                .hoist=${true}
+                .clearable=${true}
+                .autoFilter=${true}
+                .items=${this.jobNames}
+                .value=${this.jobNames[0].value}
+              ></katapult-dropdown>
             `
           )}
           <!-- <sl-icon style="margin-left: 12px; color: var(--sl-color-gray-700);" library="material" name="folder_round"></sl-icon> -->
@@ -95,6 +105,7 @@ export class KatapultJobPicker extends LitElement {
 
     // Variables
     this.jobData = [];
+    this.jobNames = [];
     this.refreshAPICheck = false;
     this.apiKey = this.getAPI(this.refreshAPICheck);
     this.pickerOpened = true;
@@ -130,6 +141,7 @@ export class KatapultJobPicker extends LitElement {
       method: 'GET'
     }).then((res) => res.json());
     this.jobData = fetchData.data;
+    if(this.jobData) this.jobNames = this.jobData.map(job => ({value: job.name, label: job.name}));
     this.requestUpdate();
   }
   openCreateJob() {
