@@ -256,7 +256,6 @@ export class KatapultToolbar extends LitElement {
       const fetchData = await fetch(`https://${database}katapultpro.com/api/v2/company-data/pages?api_key=${this.apiKey}`, {
         method: 'GET',
       }).then((res) => res.json());
-      console.log(fetchData);
       if(!fetchData.error) {
         fetchData.forEach(page => {
           page.displayName = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
