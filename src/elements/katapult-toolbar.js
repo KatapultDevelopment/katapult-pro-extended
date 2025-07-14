@@ -252,17 +252,20 @@ export class KatapultToolbar extends LitElement {
   }
   async getPages() {
     const database = this.currentDb != 'database' ? this.currentDb + '.' : '';
-    const fetchData = await fetch(`https://${database}katapultpro.com/api/v2/company-data/pages?api_key=${this.apiKey}`, {
-      method: 'GET',
-    }).then((res) => res.json());
-    if(!fetchData.error) {
-      fetchData.forEach(page => {
-        page.displayName = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
-        page.icon = page.icon +'_round';
-      });
-      this.pages = fetchData;
-      this.requestUpdate();
-    }
+    setTimeout( async () => {
+      const fetchData = await fetch(`https://${database}katapultpro.com/api/v2/company-data/pages?api_key=${this.apiKey}`, {
+        method: 'GET',
+      }).then((res) => res.json());
+      console.log(fetchData);
+      if(!fetchData.error) {
+        fetchData.forEach(page => {
+          page.displayName = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
+          page.icon = page.icon +'_round';
+        });
+        this.pages = fetchData;
+        this.requestUpdate();
+      }
+    }, 100);
   }
 }
 window.customElements.define('katapult-toolbar', KatapultToolbar);

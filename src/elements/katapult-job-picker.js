@@ -149,12 +149,15 @@ export class KatapultJobPicker extends LitElement {
   }
   async getJobData() {
     const database = this.currentDb != 'database' ? this.currentDb + '.' : '';
-    const fetchData = await fetch(`https://${database}katapultpro.com/api/v3/jobs?api_key=${this.apiKey}`, {
-      method: 'GET'
-    }).then((res) => res.json());
-    this.jobData = fetchData.data;
-    if(this.jobData) this.jobNames = this.jobData.map(job => ({value: job.name, label: job.name}));
-    this.requestUpdate();
+    setTimeout( async () => {
+      const fetchData = await fetch(`https://${database}katapultpro.com/api/v3/jobs?api_key=${this.apiKey}`, {
+        method: 'GET'
+      }).then((res) => res.json())
+      console.log(fetchData);
+      this.jobData = fetchData.data;
+      if(this.jobData) this.jobNames = this.jobData.map(job => ({value: job.name, label: job.name}));
+      this.requestUpdate();
+    }, 200);
   }
   openCreateJob() {
     this.newJobOpened = true;
