@@ -7,6 +7,7 @@ import {LitElement, html, css, unsafeCSS} from 'lit';
 
 // Styles
 import { KatapultShoelace } from '../../styles/katapult-shoelace.js';
+import { KatapultScrollbars } from '../../styles/katapult-scrollbars.js';
 
 // Elements
 import './dependencies/katapult-toolbar.js';
@@ -19,7 +20,6 @@ import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/ico
 
 // Shoelace Animations
 import { setDefaultAnimation } from '@shoelace-style/shoelace/dist/utilities/animation-registry.js';
-import { KatapultScrollbars } from '../../styles/katapult-scrollbars.js';
 
 export class KatapultPageElement extends LitElement {
   static properties = {

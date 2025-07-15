@@ -13,8 +13,8 @@ import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
 import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
 
 // Styles
-import { KatapultShoelace } from '../../styles/katapult-shoelace';
-import { KatapultFlex } from '../../styles/katapult-flex';
+import { KatapultShoelace } from '../../../styles/katapult-shoelace.js';
+import { KatapultFlex } from '../../../styles/katapult-flex.js';
 
 // Hashing
 import 'spark-md5';
