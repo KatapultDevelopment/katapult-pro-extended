@@ -193,10 +193,10 @@ export class KatapultDropdown extends LitElement {
           }}
           @sl-clear=${this.clear.bind(this)}
         >
-          <slot name="label" slot="label">${this.label}</slot>
+          <slot name="label" slot="label">${this.label != '' ? this.label : nothing}</slot>
           <slot name="prefix" slot="prefix"></slot>
           <slot name="suffix" slot="suffix"></slot>
-          <slot name="help-text" slot="help-text">${this.helpText}</slot>
+          <slot name="help-text" slot="help-text">${this.helpText != '' ? this.helpText : nothing}</slot>
           ${when(
             !this.clearable || !this._inputValue,
             () => html`

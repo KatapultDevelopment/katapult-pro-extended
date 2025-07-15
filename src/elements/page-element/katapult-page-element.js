@@ -4,26 +4,32 @@ import '@polymer/paper-styles/color.js';
 
 // Lit
 import {LitElement, html, css, unsafeCSS} from 'lit';
+import { when } from 'lit/directives/when.js';
 
 // Styles
 import { KatapultShoelace } from '../../styles/katapult-shoelace.js';
 
 // Elements
-import '../katapult-job-picker.js';
+import '../katapult-job-dialog.js';
 import '../katapult-toolbar.js';
 import '../katapult-authentication.js';
 import '../katapult-warning.js';
 import '../katapult-dropdown.js';
+import '../katapult-job-dropdown.js';
 
 // Shoelace Icons
 import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library.js';
+
+// Shoelace Animations
+import { setDefaultAnimation } from '@shoelace-style/shoelace/dist/utilities/animation-registry.js';
 
 export class KatapultPageElement extends LitElement {
   static properties = {
     supportNum: {type: String},
     supportEmail: {type: String},
     companyName: {type: String},
-    logoLink: {type: String}
+    logoLink: {type: String},
+    includeToolbarJobPicker: {type: Boolean}
   }
   static styles = [
     unsafeCSS(KatapultShoelace),
@@ -78,31 +84,7 @@ export class KatapultPageElement extends LitElement {
       />
       <!-- Shoelace -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
-      <!--Favicon Code-->
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="https://storage.googleapis.com/katapult-pro-shared-files/photos/favicons/Katapult/apple-touch-icon.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="https://storage.googleapis.com/katapult-pro-shared-files/photos/favicons/Katapult/favicon-32x32.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="https://storage.googleapis.com/katapult-pro-shared-files/photos/favicons/Katapult/favicon-16x16.png"
-      />
-      <link
-        rel="mask-icon"
-        href="https://storage.googleapis.com/katapult-pro-shared-files/photos/favicons/Katapult/safari-pinned-tab.svg"
-        color="#003e51"
-      />
       <meta name="theme-color" content="#003E51" />
-      <!--End Favicon Code-->
       <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
     </head>
     <body>
@@ -113,7 +95,12 @@ export class KatapultPageElement extends LitElement {
             .supportEmail=${this.supportEmail}
             .companyName=${this.companyName}
             .logoLink=${this.logoLink}
-          ></katapult-toolbar>
+          >
+            ${when(
+              this.includeToolbarJobPicker,
+              () => html`<katapult-job-dropdown slot="left"><katapult-job-dropdown></katapult-job-dropdown>`
+            )}
+          </katapult-toolbar>
           <slot></slot>
         </main>
       </katapult-authentication>
@@ -128,6 +115,7 @@ export class KatapultPageElement extends LitElement {
     this.supportEmail = '';
     this.companyName = '';
     this.logoLink = '';
+    this.includeToolbarJobPicker = false;
 
     // Shoelace icon support
     registerIconLibrary('material', {
@@ -136,6 +124,26 @@ export class KatapultPageElement extends LitElement {
         return `https://material-icons.github.io/material-icons/svg/${match[1]}/${match[3] || 'outline'}.svg`;
       },
       mutator: (svg) => svg.setAttribute('fill', 'currentColor')
+    });
+
+    // Change the default animation for all dialogs
+    setDefaultAnimation('dropdown.hide', {
+      keyframes: [
+        { opacity: '0' },
+        { opacity: '0' }
+      ],
+      options: {
+        duration: 100
+      }
+    });
+    setDefaultAnimation('dropdown.show', {
+      keyframes: [
+        { opacity: '1' },
+        { opacity: '1' }
+      ],
+      options: {
+        duration: 100
+      }
     });
   }
 }

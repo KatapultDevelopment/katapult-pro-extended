@@ -50,9 +50,6 @@ export const KatapultShoelace = `
     sl-icon-button::part(base):hover {
         color: var(--secondary-color, black) !important;
     }
-    sl-avatar {
-        --size: 30px;
-    }
     sl-menu {
         border: none;
         border-radius: 16px;
@@ -64,11 +61,14 @@ export const KatapultShoelace = `
         background: white;
         border-radius: 16px;
     }
-    sl-alert sl-icon {
+    sl-alert::part(icon) {
         color: var(--accent-color, red);
     }
     sl-alert::part(base) {
         border-top-color: var(--accent-color, red);
+    }
+    sl-checkbox::part(label) {
+        font-family: Roboto !important;
     }
 
 // Attribute styles
@@ -135,6 +135,10 @@ export const KatapultShoelace = `
     }
     sl-icon[nine-dot] {
         font-size: 30px;
+    }
+    sl-checkbox[checked]::part(control) {
+        border-color: var(--primary-color);
+        background-color: var(--primary-color);
     }
 `;
 

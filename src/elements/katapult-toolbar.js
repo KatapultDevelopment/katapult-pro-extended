@@ -10,6 +10,7 @@ import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js';
 import '@shoelace-style/shoelace/dist/components/avatar/avatar.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/icon-button/icon-button.js';
+import '@shoelace-style/shoelace/dist/components/spinner/spinner.js';
 
 // Styles
 import { KatapultShoelace } from '../styles/katapult-shoelace';
@@ -29,7 +30,6 @@ export class KatapultToolbar extends LitElement {
         _pages: {type: Array, state: true},
         _email: {type: String, state: true},
         _gravatarSrc: {type: String, state: true},
-        _refreshAPICheck: {type: Boolean, state: true},
         _apiKey: {type: String, state: true, reflect: true},
         _currentDb: {type: String, state: true, reflect: true}
     }
@@ -106,8 +106,11 @@ export class KatapultToolbar extends LitElement {
         color: black;
         text-transform: capitalize;
     }
+    #nine-dot-dropdown::part(panel) {
+      max-width: 250px !important;
+    }
     #nine-dot-dropdown sl-menu {
-        width: 250px;
+        max-width: 250px !important;
         padding: 16px 5px 0 5px;
     }
     div.software-details {
@@ -134,6 +137,9 @@ export class KatapultToolbar extends LitElement {
     * {
         font-family: Roboto !important;
     }
+    sl-avatar.toolbar-icon {
+        --size: 30px;
+    }
   `];
 
   // Render the component's DOM by returning a Lit template
@@ -144,7 +150,7 @@ export class KatapultToolbar extends LitElement {
         <div flex row align-center grow justify-start>
           <slot name="leftOfLogo"></slot>
           ${when(this.logoLink, () => html`<img id="logo" src="${this.logoLink}" />`)}
-          <slot name="rightOfLogo"></slot>
+          <slot name="left"></slot>
         </div>
         <!-- Center Container -->
         <div flex row align-center grow justify-center>
@@ -154,8 +160,7 @@ export class KatapultToolbar extends LitElement {
         <div flex row align-center grow justify-end>
           <slot name="right"></slot>
           <div flex row align-center>
-            <!-- FOR THIS DROPDOWN, WE NEED TO FIX THE ANIMATION ON DROPDOWN.HIDE FROM RESIZING WEIRD DUE TO WIDTH STYLING -->
-            <sl-dropdown id="help-dropdown">
+            <sl-dropdown id="help-dropdown" placement="bottom-end">
                 <sl-icon-button circle slot="trigger" class="toolbar-icon" pointer library="material" name="help_round"></sl-icon-button>
                 ${when(
                     this.supportNum || this.supportEmail, 
@@ -182,11 +187,11 @@ export class KatapultToolbar extends LitElement {
                 <p>Katapult does not manage or hold responsibility for this domain.</p>
               </div>
             </sl-dropdown>
-            <sl-dropdown id="nine-dot-dropdown">
+            <sl-dropdown id="nine-dot-dropdown" placement="bottom-end">
               <sl-icon-button class="toolbar-icon" pointer library="material" name="apps" slot="trigger"></sl-icon-button>
               <sl-menu flex row align-center justify-center style="flex-wrap: wrap;">
                 ${map(
-                    this.pages,
+                    this._pages,
                     (page) => 
                     html`
                         <sl-menu-item flex column @click=${(e) => this.openPage(e)}>
@@ -205,10 +210,27 @@ export class KatapultToolbar extends LitElement {
                         </sl-menu-item>
                     `
                 )}
+                ${when(
+                  this._pages.length === 0,
+                  () => html`
+                    <sl-spinner style="font-size: 40px; --track-width: 4px; --indicator-color: var(--primary-color, var(--sl-color-gray-400)); --track-color: var(--sl-color-gray-200); margin: 0 11px 16px 11px;"></sl-spinner>
+                  `
+                )}
               </sl-menu>
             </sl-dropdown>
-            <sl-avatar class="toolbar-icon" pointer image="${this.gravatarSrc}"></sl-avatar>
-            <sl-dropdown open></sl-dropdown>
+            <sl-dropdown placement="bottom-end">
+              <sl-avatar class="toolbar-icon" pointer image="${this._gravatarSrc}" slot="trigger"></sl-avatar>
+              <sl-menu flex column justify-center align-center style="padding: 16px;">
+                <div flex row justify-center align-center>
+                  <sl-avatar pointer image="${this._gravatarSrc}"></sl-avatar>
+                  ${when(this._email, () => html`<span style="margin-left: 12px;">${this._email}</span>`)}
+                </div>
+                <sl-button variant="default" style="margin-top: 12px;" @click=${() => this.signOut()}>
+                  <sl-icon slot="prefix" library="material" name="logout"></sl-icon>
+                  Sign Out
+                </sl-button>
+              </sl-menu>
+            </sl-dropdown>
           </div>
         </div>
       </div>
@@ -222,49 +244,56 @@ export class KatapultToolbar extends LitElement {
     this.companyName = '';
     this.supportNum = '';
     this.supportEmail = '';
-    this.pages = [];
-    this.email = '';
-    this.gravatarSrc = this.getGravatarSrc(this.email);
-    this.refreshAPICheck = false;
-    this.apiKey = this.getAPI(this.refreshAPICheck);
-    this.currentDb = 'dcs';
+    this._pages = [];
+    this._email = '';
+    this._gravatarSrc = this.getGravatarSrc(this._email);
+    this._apiKey = this.getAPI();
+    this._currentDb = 'dcs';
+    if (this._apiKey) this.getPages();
 
     // Functions and Events
-    window.addEventListener('apiKeyChange', async () => {
-      this.refreshAPICheck = !this.refreshAPICheck;
+    window.addEventListener('apiKeyChange', async (e) => {
+      this._apiKey = e.detail;
+      if (this._apiKey) await this.getPages();
+      else this.requestUpdate();
     });
-    if (this.apiKey) this.getPages();
+  }
+  signOut() {
+    localStorage.removeItem('apiKey');
+    const event = new CustomEvent('apiKeyChange', { detail: null });
+    window.dispatchEvent(event);
   }
   getGravatarSrc(email) {
     if (!email) return '';
     let hashedEmail = SparkMD5.hash(email);
     return `https://www.gravatar.com/avatar/${hashedEmail}?s=100&d=blank`;
   }
-  getAPI(refreshAPICheck) {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('api_key') || localStorage.getItem('apiKey') || '';
+  getAPI() {
+    return localStorage.getItem('apiKey') || '';
   }
   openPage(e) {
     const title = e.currentTarget.innerText.toLowerCase();
-    const clickedPage = this.pages.filter(page => page.name == title)[0];
-    const urlToVisit = 'https://' + this.currentDb + '.katapultpro.com/' + clickedPage.url;
+    const clickedPage = this._pages.filter(page => page.name == title)[0];
+    const urlToVisit = 'https://' + this._currentDb + '.katapultpro.com/' + clickedPage.url;
     window.open(urlToVisit, '_blank');
   }
   async getPages() {
-    const database = this.currentDb != 'database' ? this.currentDb + '.' : '';
+    const database = this._currentDb != 'database' ? this._currentDb + '.' : '';
     setTimeout( async () => {
-      const fetchData = await fetch(`https://${database}katapultpro.com/api/v2/company-data/pages?api_key=${this.apiKey}`, {
-        method: 'GET',
-      }).then((res) => res.json());
-      if(!fetchData.error) {
-        fetchData.forEach(page => {
-          page.displayName = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
-          page.icon = page.icon +'_round';
-        });
-        this.pages = fetchData;
-        this.requestUpdate();
+      if(this._apiKey) {
+        const fetchData = await fetch(`https://${database}katapultpro.com/api/v2/company-data/pages?api_key=${this._apiKey}`, {
+          method: 'GET',
+        }).then((res) => res.json());
+        if(!fetchData.error) {
+          fetchData.forEach(page => {
+            page.displayName = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
+            page.icon = page.icon +'_round';
+          });
+          this._pages = fetchData;
+          this.requestUpdate();
+        }
       }
-    }, 100);
+    }, 2500);
   }
 }
 window.customElements.define('katapult-toolbar', KatapultToolbar);
