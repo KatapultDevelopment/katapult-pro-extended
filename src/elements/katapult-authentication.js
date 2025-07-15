@@ -17,7 +17,6 @@ export class KatapultAuthentication extends LitElement {
   static properties = {
     _validApiKey: {type: Boolean, state: true},
     _apiError: {type: Boolean, state: true},
-    _currentDb: {type: String, state: true},
     _saveApiData: {type: Boolean}
   }
   static styles = [
@@ -68,7 +67,7 @@ export class KatapultAuthentication extends LitElement {
           <sl-icon small library="material" slot="show-password-icon" name="visibility_off_round"></sl-icon>
           <sl-icon small library="material" slot="hide-password-icon" name="visibility_round"></sl-icon>
         </sl-input>
-        <sl-checkbox id="rememberMe" size="small" @sl-change=${(e) => this._saveApiData = e.currentTarget.checked} style="margin-top: 12px; color: var(--sl-color-gray-600);">Remember device</sl-checkbox>
+        <sl-checkbox id="rememberMe" size="small" @sl-change=${(e) => this._saveApiData = e.currentTarget.checked} style="margin-top: 12px; color: var(--sl-color-gray-600);">Remember device for 30 days</sl-checkbox>
         <div flex column slot="footer">
           <sl-button variant="primary" @click=${() => this.#checkAPI()}>Open API Tool</sl-button>
           <p class="helpText" style="margin-bottom: 0; margin-top: 24px;">
@@ -103,10 +102,14 @@ export class KatapultAuthentication extends LitElement {
   constructor() {
     super();
 
+    // Delete api from local storage if expired
+    const now = new Date();
+    const apiLocal = JSON.parse(localStorage.getItem('apiKey'));
+    if(now >= apiLocal?.expiry) localStorage.removeItem('apiKey');
+
     // Variables
-    this._validApiKey = localStorage.getItem('apiKey') ? true : false;
+    this._validApiKey = JSON.parse(localStorage.getItem('apiKey'))?.data ? true : false;
     this._apiError = false;
-    this._currentDb = 'dcs';
     if(this._validApiKey) this.requestUpdate();
 
     // Functions and Events
@@ -133,8 +136,12 @@ export class KatapultAuthentication extends LitElement {
       }
       else {
         if(this._saveApiData) {
-          localStorage.setItem('apiKey', apiKey);
-          localStorage.setItem('db', apiServer);
+          // Calculate 30 days from now
+          const now = new Date();
+          const expiryTime = now.getTime() + (30 * 24 * 60 * 60 * 1000);
+
+          localStorage.setItem('apiKey', JSON.stringify({data: apiKey, expiry: expiryTime}));
+          localStorage.setItem('db', JSON.stringify({data: apiServer, expiry: expiryTime}));
         }
         window.dispatchEvent(new CustomEvent('apiChange', { detail: {key: apiKey, db: apiServer} }));
         this._validApiKey = true;

@@ -239,6 +239,13 @@ export class KatapultToolbar extends LitElement {
   constructor() {
     super();
 
+    // Delete api data from local storage if expired
+    const now = new Date();
+    const apiLocal = JSON.parse(localStorage.getItem('apiKey'));
+    if(now >= apiLocal?.expiry) localStorage.removeItem('apiKey');
+    const dbLocal = JSON.parse(localStorage.getItem('db'));
+    if(now >= dbLocal?.expiry) localStorage.removeItem('db');
+
     // Variables
     this.logoLink = '';
     this.companyName = '';
@@ -247,8 +254,8 @@ export class KatapultToolbar extends LitElement {
     this._pages = [];
     this._email = '';
     this._gravatarSrc = this.#getGravatarSrc(this._email);
-    this._apiKey = localStorage.getItem('apiKey') || '';;
-    this._currentDb = localStorage.getItem('db') || '';
+    this._apiKey = JSON.parse(localStorage.getItem('apiKey'))?.data || '';;
+    this._currentDb = JSON.parse(localStorage.getItem('db'))?.data || '';
     if (this._apiKey) this.#getPages();
 
     // Functions and Events
