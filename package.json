@@ -1,8 +1,12 @@
 {
   "name": "katapult-pro-extended",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "A basic template to design katapult-like website extensions",
   "type": "module",
+  "exports": {
+    "@katapult-elements/*": "./src/elements",
+    "@katapult-styles/*": "./src/styles"
+  },
   "main": "/workspaces/external-user-element-package/katapult-pro-extended/src",
   "dependencies": {
     "@lit-labs/virtualizer": "^2.1.0",

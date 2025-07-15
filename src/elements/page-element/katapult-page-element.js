@@ -9,10 +9,8 @@ import {LitElement, html, css, unsafeCSS} from 'lit';
 import { KatapultShoelace } from '../../styles/katapult-shoelace.js';
 
 // Elements
-import '../katapult-job-dialog.js';
-import '../katapult-toolbar.js';
-import '../katapult-authentication.js';
-import '../katapult-warning.js';
+import './dependencies/katapult-toolbar.js';
+import './dependencies/katapult-authentication.js';
 import '../katapult-dropdown.js';
 import '../katapult-job-dropdown.js';
 
