@@ -4,6 +4,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { LitVirtualizer } from '@lit-labs/virtualizer';
+import { nothing } from 'lit-html';
 
 // Shoelace
 import SlInput from '@shoelace-style/shoelace/dist/components/input/input.js';
@@ -193,7 +194,7 @@ export class KatapultDropdown extends LitElement {
           }}
           @sl-clear=${this.clear.bind(this)}
         >
-          <slot name="label" slot="label">${this.label != '' ? this.label : nothing}</slot>
+          <slot name="label" ${this.label ? slot="label" : nothing}>${this.label}</slot>
           <slot name="prefix" slot="prefix"></slot>
           <slot name="suffix" slot="suffix"></slot>
           <slot name="help-text" slot="help-text">${this.helpText != '' ? this.helpText : nothing}</slot>

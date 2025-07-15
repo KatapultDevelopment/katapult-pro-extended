@@ -4,7 +4,6 @@ import '@polymer/paper-styles/color.js';
 
 // Lit
 import {LitElement, html, css, unsafeCSS} from 'lit';
-import { when } from 'lit/directives/when.js';
 
 // Styles
 import { KatapultShoelace } from '../../styles/katapult-shoelace.js';
@@ -22,17 +21,18 @@ import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/ico
 
 // Shoelace Animations
 import { setDefaultAnimation } from '@shoelace-style/shoelace/dist/utilities/animation-registry.js';
+import { KatapultScrollbars } from '../../styles/katapult-scrollbars.js';
 
 export class KatapultPageElement extends LitElement {
   static properties = {
     supportNum: {type: String},
     supportEmail: {type: String},
     companyName: {type: String},
-    logoLink: {type: String},
-    includeToolbarJobPicker: {type: Boolean}
+    logoLink: {type: String}
   }
   static styles = [
     unsafeCSS(KatapultShoelace),
+    unsafeCSS(KatapultScrollbars),
     css`
       :root {
         --sl-input-focus-ring-color: none;
@@ -48,7 +48,9 @@ export class KatapultPageElement extends LitElement {
         height: 100vh;
         margin: 0;
       }
-      main {
+      #main {
+        display: flex;
+        flex-direction: column;
         height: 100%;
         width: 100%;
         background: var(--sl-color-gray-50);
@@ -89,19 +91,22 @@ export class KatapultPageElement extends LitElement {
     </head>
     <body>
       <katapult-authentication>
-        <main>
+        <main id="main">
           <katapult-toolbar
             .supportNum=${this.supportNum}
             .supportEmail=${this.supportEmail}
             .companyName=${this.companyName}
             .logoLink=${this.logoLink}
           >
-            ${when(
-              this.includeToolbarJobPicker,
-              () => html`<katapult-job-dropdown slot="left"><katapult-job-dropdown></katapult-job-dropdown>`
-            )}
+            <slot name="toolbar-left-of-logo" slot="left-of-logo"></slot>
+            <slot name="toolbar-left" slot="left"></slot>
+            <slot name="toolbar-center" slot="center"></slot>
+            <slot name="toolbar-right" slot="right"></slot>
           </katapult-toolbar>
-          <slot></slot>
+          <!-- 100% minus the toolbar -->
+          <div part="content-wrapper" style="overflow: auto; flex-grow: 1;">
+            <slot></slot>
+          </div>
         </main>
       </katapult-authentication>
     </body>
@@ -115,7 +120,6 @@ export class KatapultPageElement extends LitElement {
     this.supportEmail = '';
     this.companyName = '';
     this.logoLink = '';
-    this.includeToolbarJobPicker = false;
 
     // Shoelace icon support
     registerIconLibrary('material', {

@@ -148,7 +148,7 @@ export class KatapultToolbar extends LitElement {
       <div flex row id="toolbar">
         <!-- Left Container -->
         <div flex row align-center grow justify-start>
-          <slot name="leftOfLogo"></slot>
+          <slot name="left-of-logo"></slot>
           ${when(this.logoLink, () => html`<img id="logo" src="${this.logoLink}" />`)}
           <slot name="left"></slot>
         </div>
@@ -194,7 +194,7 @@ export class KatapultToolbar extends LitElement {
                     this._pages,
                     (page) => 
                     html`
-                        <sl-menu-item flex column @click=${(e) => this.openPage(e)}>
+                        <sl-menu-item flex column @click=${(e) => this.#openPage(e)}>
                             <sl-icon
                             nine-dot
                             flex
@@ -225,7 +225,7 @@ export class KatapultToolbar extends LitElement {
                   <sl-avatar pointer image="${this._gravatarSrc}"></sl-avatar>
                   ${when(this._email, () => html`<span style="margin-left: 12px;">${this._email}</span>`)}
                 </div>
-                <sl-button variant="default" style="margin-top: 12px;" @click=${() => this.signOut()}>
+                <sl-button variant="default" style="margin-top: 12px;" @click=${() => this.#signOut()}>
                   <sl-icon slot="prefix" library="material" name="logout"></sl-icon>
                   Sign Out
                 </sl-button>
@@ -246,39 +246,37 @@ export class KatapultToolbar extends LitElement {
     this.supportEmail = '';
     this._pages = [];
     this._email = '';
-    this._gravatarSrc = this.getGravatarSrc(this._email);
-    this._apiKey = this.getAPI();
-    this._currentDb = 'dcs';
-    if (this._apiKey) this.getPages();
+    this._gravatarSrc = this.#getGravatarSrc(this._email);
+    this._apiKey = localStorage.getItem('apiKey') || '';;
+    this._currentDb = localStorage.getItem('db') || '';
+    if (this._apiKey) this.#getPages();
 
     // Functions and Events
-    window.addEventListener('apiKeyChange', async (e) => {
-      this._apiKey = e.detail;
-      if (this._apiKey) await this.getPages();
+    window.addEventListener('apiChange', async (e) => {
+      this._apiKey = e.detail?.key;
+      this._currentDb = e.detail?.db;
+      if (this._apiKey) await this.#getPages();
       else this.requestUpdate();
     });
   }
-  signOut() {
+  #signOut() {
     localStorage.removeItem('apiKey');
-    const event = new CustomEvent('apiKeyChange', { detail: null });
-    window.dispatchEvent(event);
+    localStorage.removeItem('db');
+    window.dispatchEvent(new CustomEvent('apiChange', { detail: null }));
   }
-  getGravatarSrc(email) {
+  #getGravatarSrc(email) {
     if (!email) return '';
     let hashedEmail = SparkMD5.hash(email);
     return `https://www.gravatar.com/avatar/${hashedEmail}?s=100&d=blank`;
   }
-  getAPI() {
-    return localStorage.getItem('apiKey') || '';
-  }
-  openPage(e) {
+  #openPage(e) {
     const title = e.currentTarget.innerText.toLowerCase();
     const clickedPage = this._pages.filter(page => page.name == title)[0];
     const urlToVisit = 'https://' + this._currentDb + '.katapultpro.com/' + clickedPage.url;
     window.open(urlToVisit, '_blank');
   }
-  async getPages() {
-    const database = this._currentDb != 'database' ? this._currentDb + '.' : '';
+  async #getPages() {
+    const database = this._currentDb != '' ? this._currentDb + '.' : '';
     setTimeout( async () => {
       if(this._apiKey) {
         const fetchData = await fetch(`https://${database}katapultpro.com/api/v2/company-data/pages?api_key=${this._apiKey}`, {
