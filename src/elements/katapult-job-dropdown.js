@@ -28,6 +28,7 @@ export class KatapultJobDropdown extends LitElement {
         this._jobNames?.length > 0,
         () => html`
           <katapult-dropdown
+            id="active-dropdown"
             .hoist=${true}
             .clearable=${true}
             .autoFilter=${true}
@@ -60,7 +61,11 @@ export class KatapultJobDropdown extends LitElement {
     window.addEventListener('apiChange', async (e) => {
       this._apiKey = e.detail?.key;
       if (this._apiKey) await this.#getJobData(e.detail.db);
-      else this.requestUpdate();
+      else if (e.detail == null) {
+        this.shadowRoot.getElementById('active-dropdown').setAttribute('value', '');
+        this._currentJobData = {};
+        this.dispatchEvent(new CustomEvent('change'));
+      }
     });
     if (this._apiKey) this.#getJobData(JSON.parse(localStorage.getItem('db'))?.data);
   }

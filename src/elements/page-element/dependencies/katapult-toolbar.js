@@ -299,6 +299,9 @@ export class KatapultToolbar extends LitElement {
           fetchData.forEach(page => {
             page.displayName = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
             page.icon = page.icon +'_round';
+
+            // Update the coloring for project management, since the API stores it as "primary color." Set it to the right color
+            if(page.color === 'var(--primary-color)') page.color = '#003e51';
           });
           this._pages = fetchData;
           this.requestUpdate();
