@@ -21,8 +21,6 @@ export class KatapultJobDropdown extends LitElement {
             .disabled=${true}
             .placeholder=${'Loading...'}
             .lookLikePaperElement=${true}
-            .noLabel=${true}
-            .noHelpText=${true}
           ></katapult-dropdown>
         `
       )}
@@ -36,8 +34,6 @@ export class KatapultJobDropdown extends LitElement {
             .items=${this._jobNames}
             .lookLikePaperElement=${true}
             .placeholder=${'Select a Job'}
-            .noLabel=${true}
-            .noHelpText=${true}
             @change=${(e) => this.#selectJob(e)}
           ></katapult-dropdown>
         `

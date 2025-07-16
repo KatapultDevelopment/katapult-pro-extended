@@ -4,7 +4,6 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { LitVirtualizer } from '@lit-labs/virtualizer';
-import { nothing } from 'lit-html';
 
 // Shoelace
 import SlInput from '@shoelace-style/shoelace/dist/components/input/input.js';
@@ -194,10 +193,10 @@ export class KatapultDropdown extends LitElement {
           }}
           @sl-clear=${this.clear.bind(this)}
         >
-          <slot name="label" ${this.label ? slot="label" : nothing}>${this.label}</slot>
+          <slot name="label">${this.label}</slot>
           <slot name="prefix" slot="prefix"></slot>
           <slot name="suffix" slot="suffix"></slot>
-          <slot name="help-text" slot="help-text">${this.helpText != '' ? this.helpText : nothing}</slot>
+          <slot name="help-text">${this.helpText}</slot>
           ${when(
             !this.clearable || !this._inputValue,
             () => html`
@@ -426,11 +425,36 @@ export class KatapultDropdown extends LitElement {
       this._highlightElement?.classList.add('highlight');
     }
 
+    // Check if the label or help-text slot content has changed - remove or add to sl-input slot
+    const labelSlot = this.shadowRoot.querySelector('slot[name=label]');
+    const helpSlot = this.shadowRoot.querySelector('slot[name=help-text]');
+    let slotUpdate = false;
+    if(labelSlot || helpSlot) {
+      const labelContentExists = labelSlot?.innerText || labelSlot?.assignedElements()?.length > 0 ? true : false;
+      const helpContentExists = helpSlot?.innerText || helpSlot?.assignedElements()?.length > 0 ? true : false;
+
+      if(labelContentExists && !labelSlot.hasAttribute('slot')) {
+        labelSlot.setAttribute('slot', 'label');
+        slotUpdate = true;
+      } else if(!labelContentExists && labelSlot.hasAttribute('slot')) {
+        labelSlot.removeAttribute('slot');
+        slotUpdate = true;
+      }
+
+      if(helpContentExists && !helpSlot.hasAttribute('slot')) {
+         helpSlot.setAttribute('slot', 'help-text');
+         slotUpdate = true;
+      } else if(!helpContentExists && helpSlot.hasAttribute('slot')) {
+         helpSlot.removeAttribute('slot');
+         slotUpdate = true;
+      }
+    }
+
     const updateCalledManually = changedProperties.size == 0;
     const nonIgnoredPropertiesHaveChanged = Array.from(changedProperties.keys()).some(
         (prop) => this.constructor.properties[prop].shouldUpdate !== false
     );
-    return updateCalledManually || nonIgnoredPropertiesHaveChanged;
+    return updateCalledManually || nonIgnoredPropertiesHaveChanged || slotUpdate;
   }
 
   /**
