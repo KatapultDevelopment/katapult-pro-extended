@@ -130,9 +130,8 @@ export class KatapultAuthentication extends LitElement {
     window.open('https://github.com/KatapultDevelopment/katapult-pro-api-documentation/blob/main/v2/DocumentationV2.MD#api-key-generation', '_blank');
   }
   async #checkAPI() {
-    let apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
+    const apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
     const obfuscated = xorEncrypt(apiKey);
-    apiKey = '';
     const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value || '';
     if (obfuscated) {
       const data = await this.#retrieveWelcomeMessage(obfuscated, apiServer);
