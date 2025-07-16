@@ -5,6 +5,9 @@ import { when } from 'lit/directives/when.js';
 // Elements
 import './katapult-dropdown.js';
 
+// Other
+import { xorDecrypt } from './page-element/dependencies/obfuscation.js';
+
 export class KatapultJobDropdown extends LitElement {
   static properties = {
     _jobData: {type: Array, state: true},
@@ -54,12 +57,12 @@ export class KatapultJobDropdown extends LitElement {
     // Variables
     this._jobData = [];
     this._jobNames = [];
-    this._apiKey = JSON.parse(localStorage.getItem('apiKey'))?.data || '';
+    this._apiKey = apiLocal?.data ? xorDecrypt(apiLocal.data) : '';
     this._currentJobData = {};
 
     // Events and Functions
     window.addEventListener('apiChange', async (e) => {
-      this._apiKey = e.detail?.key;
+      this._apiKey = xorDecrypt(e.detail?.key);
       if (this._apiKey) await this.#getJobData(e.detail.db);
       else if (e.detail == null) {
         this.shadowRoot.getElementById('active-dropdown').setAttribute('value', '');
