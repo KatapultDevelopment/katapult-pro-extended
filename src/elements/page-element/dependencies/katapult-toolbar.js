@@ -19,6 +19,9 @@ import { KatapultFlex } from '../../../styles/katapult-flex.js';
 // Hashing
 import 'spark-md5';
 
+// Other
+import { xorDecrypt } from './obfuscation.js';
+
 // Registers the element
 export class KatapultToolbar extends LitElement {
     static properties = {
@@ -254,7 +257,7 @@ export class KatapultToolbar extends LitElement {
     this._pages = [];
     this._email = '';
     this._gravatarSrc = this.#getGravatarSrc(this._email);
-    this._apiKey = JSON.parse(localStorage.getItem('apiKey'))?.data || '';;
+    this._apiKey = apiLocal?.data ? xorDecrypt(apiLocal.data) : '';
     this._currentDb = JSON.parse(localStorage.getItem('db'))?.data || '';
     if (this._apiKey) this.#getPages();
 

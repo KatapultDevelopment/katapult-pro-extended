@@ -13,6 +13,9 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import { KatapultShoelace } from '../../../styles/katapult-shoelace.js';
 import { KatapultFlex } from '../../../styles/katapult-flex.js';
 
+// Other
+import { xorEncrypt } from './obfuscation.js';
+
 export class KatapultAuthentication extends LitElement {
   static properties = {
     _validApiKey: {type: Boolean, state: true},
@@ -129,6 +132,7 @@ export class KatapultAuthentication extends LitElement {
   async #checkAPI() {
     const apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
     const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value || '';
+    const obfuscated = xorEncrypt(apiKey);
     if (apiKey) {
       const data = await this.#retrieveWelcomeMessage(apiKey, apiServer);
       if (data?.error == 'INVALID API KEY') {
@@ -139,11 +143,10 @@ export class KatapultAuthentication extends LitElement {
           // Calculate 30 days from now
           const now = new Date();
           const expiryTime = now.getTime() + (30 * 24 * 60 * 60 * 1000);
-
-          localStorage.setItem('apiKey', JSON.stringify({data: apiKey, expiry: expiryTime}));
+          localStorage.setItem('apiKey', JSON.stringify({data: obfuscated, expiry: expiryTime}));
           localStorage.setItem('db', JSON.stringify({data: apiServer, expiry: expiryTime}));
         }
-        window.dispatchEvent(new CustomEvent('apiChange', { detail: {key: apiKey, db: apiServer} }));
+        window.dispatchEvent(new CustomEvent('apiChange', { detail: {key: obfuscated, db: apiServer} }));
         this._validApiKey = true;
       }
       this.requestUpdate();
