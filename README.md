@@ -46,18 +46,19 @@ Extensible web component library for development, built with [Lit](https://lit.d
 
 ### Wrapper Element
 #### `<katapult-page-element>`
-- Main wrapper for your app; place content and other Katapult elements inside
+- The main wrapper for your webpage. Place content and other Katapult elements inside
 - Attributes:
   - `supportNum`, `supportEmail`, `companyName`, `logoLink`
 - Slots:
-  - `slots="toolbar-left-of-logo"`
-  - `slots="toolbar-left"`
-  - `slots="toolbar-center"`
-  - `slots="toolbar-right"`
+  - `slot="toolbar-left-of-logo"`
+  - `slot="toolbar-left"`
+  - `slot="toolbar-center"`
+  - `slot="toolbar-right"`
 - Parts: 
-  - Styling the grey area under the toolbar
+  - Styling the grey/empty area under the toolbar. Ex. Aligning all page content to the center
    ``` css
     katapult-page-element::part(content-wrapper) {
+      /* Your styling here */
       align-content: center;
     }
   ```
@@ -69,19 +70,19 @@ import 'katapult-pro-extended/elements/page-element/katapult-page-element.js';
 ### API Element
 #### `<katapult-job-dropdown>`
 - Dropdown for job selection (This is a v3 API call)
-- Has function: `getSelectedJob()` returns the current job data
+- Has function: `getSelectedJob()` that returns the current job's data
 ```js
 import 'katapult-pro-extended/elements/katapult-job-dropdown.js';
 ```
 
 ### Non-API Element
 #### `<katapult-dropdown>`
-- Dropdown component for selecting from a list of items and supports filtering
+- Dropdown component for selecting from a list of items (supports filtering).
 - Slots: 
-  - `slots="label"`
-  - `slots="prefix"`
-  - `slots="suffix"`
-  - `slots="help-text"`
+  - `slot="label"`
+  - `slot="prefix"`
+  - `slot="suffix"`
+  - `slot="help-text"`
 ```js
 import 'katapult-pro-extended/elements/katapult-dropdown.js';
 ```
@@ -117,7 +118,7 @@ import lightTheme from 'katapult-pro-extended/styles/katapult-shoelace-colors.js
 - **[Katapult Pro API V3 Documentation](https://github.com/KatapultDevelopment/katapult-pro-api-documentation/tree/main/v3)** 
     - API V3 Rate Limit:
         - 50 milliseconds between calls
-        - Token limit of **10000**, a `GET` call costs **1** token, `POST` and `DELETE` calls cost **10** tokens: tokens are refilled **every minute**
+        - Token limit of **10000**, a `GET` call costs **1** token, `POST` and `DELETE` calls cost **10** tokens. Tokens are refilled **every minute**.
 - **[Katapult Pro API V2 Documentation](https://github.com/KatapultDevelopment/katapult-pro-api-documentation/blob/main/v2/DocumentationV2.MD)**
     - API V2 Rate Limit: 
         - 2 seconds between calls
