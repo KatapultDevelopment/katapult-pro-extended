@@ -74,7 +74,6 @@ export class KatapultPageElement extends LitElement {
       <title>Extension Page</title>
       <meta charset="utf-8" />
       <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
-      <meta name="robots" content="noindex" />
       <!-- Material Icons -->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
       <!-- Material Symbols -->

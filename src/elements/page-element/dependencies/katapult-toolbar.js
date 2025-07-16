@@ -107,11 +107,10 @@ export class KatapultToolbar extends LitElement {
         text-transform: capitalize;
     }
     #nine-dot-dropdown::part(panel) {
-      max-width: 250px !important;
+      width: 250px !important;
     }
     #nine-dot-dropdown sl-menu {
-        max-width: 250px !important;
-        padding: 16px 5px 0 5px;
+      width: 250px !important;
     }
     div.software-details {
         border-top: 1px solid var(--sl-color-gray-300);
@@ -189,33 +188,40 @@ export class KatapultToolbar extends LitElement {
             </sl-dropdown>
             <sl-dropdown id="nine-dot-dropdown" placement="bottom-end">
               <sl-icon-button class="toolbar-icon" pointer library="material" name="apps" slot="trigger"></sl-icon-button>
-              <sl-menu flex row align-center justify-center style="flex-wrap: wrap;">
-                ${map(
-                    this._pages,
-                    (page) => 
-                    html`
-                        <sl-menu-item flex column @click=${(e) => this.#openPage(e)}>
-                            <sl-icon
-                            nine-dot
-                            flex
-                            row
-                            justify-center
-                            wrap
-                            slot="prefix"
-                            library="material"
-                            name="${page.icon}"
-                            style="color: ${page.color};"
-                            ></sl-icon>
-                            ${page.displayName}
-                        </sl-menu-item>
-                    `
-                )}
+              <sl-menu>
+                ${when(
+                  this._pages.length > 0,
+                  () => html`
+                    <div flex row align-center justify-center style="flex-wrap: wrap; padding: 8px 5px 0 5px;">
+                      ${map(
+                          this._pages,
+                          (page) => 
+                          html`
+                              <sl-menu-item flex column @click=${(e) => this.#openPage(e)}>
+                                  <sl-icon
+                                  nine-dot
+                                  flex
+                                  row
+                                  justify-center
+                                  wrap
+                                  slot="prefix"
+                                  library="material"
+                                  name="${page.icon}"
+                                  style="color: ${page.color};"
+                                  ></sl-icon>
+                                  ${page.displayName}
+                              </sl-menu-item>
+                        `)}
+                    </div>
+                `)}
                 ${when(
                   this._pages.length === 0,
                   () => html`
-                    <sl-spinner style="font-size: 40px; --track-width: 4px; --indicator-color: var(--primary-color, var(--sl-color-gray-400)); --track-color: var(--sl-color-gray-200); margin: 0 11px 16px 11px;"></sl-spinner>
-                  `
-                )}
+                    <div flex row align-center justify-start style="border: 3px solid var(--primary-color, var(--sl-color-gray-500)); border-radius: 15px; margin: 0 8px;">
+                      <sl-spinner style="font-size: 40px; --track-width: 4px; --indicator-color: var(--primary-color, var(--sl-color-gray-400)); --track-color: var(--sl-color-gray-200); margin: 8px; margin-left: 12px;"></sl-spinner>
+                      <div style="font-size: 18px; color: var(--sl-color-gray-400); margin-left: 32px;">Loading...</div>
+                    </div>
+                `)}
               </sl-menu>
             </sl-dropdown>
             <sl-dropdown placement="bottom-end">
