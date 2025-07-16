@@ -14,7 +14,7 @@ import { KatapultShoelace } from '../../../styles/katapult-shoelace.js';
 import { KatapultFlex } from '../../../styles/katapult-flex.js';
 
 // Other
-import { xorEncrypt } from './obfuscation.js';
+import { xorEncrypt, xorDecrypt } from './obfuscation.js';
 
 export class KatapultAuthentication extends LitElement {
   static properties = {
@@ -130,11 +130,12 @@ export class KatapultAuthentication extends LitElement {
     window.open('https://github.com/KatapultDevelopment/katapult-pro-api-documentation/blob/main/v2/DocumentationV2.MD#api-key-generation', '_blank');
   }
   async #checkAPI() {
-    const apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
-    const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value || '';
+    let apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
     const obfuscated = xorEncrypt(apiKey);
-    if (apiKey) {
-      const data = await this.#retrieveWelcomeMessage(apiKey, apiServer);
+    apiKey = '';
+    const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value || '';
+    if (obfuscated) {
+      const data = await this.#retrieveWelcomeMessage(obfuscated, apiServer);
       if (data?.error == 'INVALID API KEY') {
         this._apiError = true;
       }
@@ -152,10 +153,10 @@ export class KatapultAuthentication extends LitElement {
       this.requestUpdate();
     }
   }
-  async #retrieveWelcomeMessage(apiKey, apiServer) {
-    if (apiKey) {
+  async #retrieveWelcomeMessage(obfuscated, apiServer) {
+    if (obfuscated) {
       const database = apiServer ? apiServer + '.' : '';
-      const fetchData = await fetch(`https://${database}katapultpro.com/api/v2?api_key=${apiKey}`, {
+      const fetchData = await fetch(`https://${database}katapultpro.com/api/v2?api_key=${xorDecrypt(obfuscated)}`, {
         method: 'GET'
       }).then((res) => res.json());
       return fetchData;
