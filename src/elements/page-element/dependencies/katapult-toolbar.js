@@ -263,7 +263,7 @@ export class KatapultToolbar extends LitElement {
 
     // Functions and Events
     window.addEventListener('apiChange', async (e) => {
-      this._apiKey = e.detail?.key;
+      this._apiKey = xorDecrypt(e.detail?.key);
       this._currentDb = e.detail?.db;
       if (this._apiKey) await this.#getPages();
       else this.requestUpdate();

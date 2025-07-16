@@ -6,7 +6,7 @@ import { when } from 'lit/directives/when.js';
 import './katapult-dropdown.js';
 
 // Other
-import { xorDecrypt } from './obfuscation.js';
+import { xorDecrypt } from './page-element/dependencies/obfuscation.js';
 
 export class KatapultJobDropdown extends LitElement {
   static properties = {
@@ -61,7 +61,7 @@ export class KatapultJobDropdown extends LitElement {
 
     // Events and Functions
     window.addEventListener('apiChange', async (e) => {
-      this._apiKey = e.detail?.key;
+      this._apiKey = xorDecrypt(e.detail?.key);
       if (this._apiKey) await this.#getJobData(e.detail.db);
       else this.requestUpdate();
     });
