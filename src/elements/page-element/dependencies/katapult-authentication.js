@@ -21,7 +21,8 @@ export class KatapultAuthentication extends LitElement {
     _validApiKey: {type: Boolean, state: true},
     _apiError: {type: Boolean, state: true},
     _saveApiData: {type: Boolean},
-    _emptyError: {type: Boolean}
+    _emptyError: {type: Boolean},
+    _apiLoading: {type: Boolean}
   }
   static styles = [
     unsafeCSS(KatapultShoelace),
@@ -42,6 +43,10 @@ export class KatapultAuthentication extends LitElement {
         color: var(--sl-color-gray-600);
         text-align: center;
         font-size: 14px;
+      }
+      #open-api-btn::part(label) {
+        display: flex;
+        align-items: center;
       }
     `
   ]
@@ -73,7 +78,16 @@ export class KatapultAuthentication extends LitElement {
         </sl-input>
         <sl-checkbox id="rememberMe" size="small" @sl-change=${(e) => this._saveApiData = e.currentTarget.checked} style="margin-top: 12px; color: var(--sl-color-gray-600);">Remember device for 30 days</sl-checkbox>
         <div flex column slot="footer">
-          <sl-button variant="primary" @click=${() => this.#checkAPI()}>Open API Tool</sl-button>
+          <sl-button id="open-api-btn" flex variant="primary" @click=${() => this.#checkAPI()} style="height: 45px;">
+            ${when(
+            !this._apiLoading,
+            () => html`Open API Tool`
+            )}
+            ${when(
+            this._apiLoading,
+            () => html`<sl-spinner style="font-size: 20px; --track-width: 3px; --indicator-color: var(--primary-color, var(--sl-color-gray-400)); --track-color: var(--sl-color-gray-200);"></sl-spinner>`
+            )}
+          </sl-button>
           <p class="helpText" style="margin-bottom: 0; margin-top: 24px;">
             If you don't know how to access your API key, follow along with
             <span class="link"
@@ -123,6 +137,7 @@ export class KatapultAuthentication extends LitElement {
     this._validApiKey = apiLocal?.data ? true : false;
     this._apiError = false;
     this._emptyError = false;
+    this._apiLoading = false;
     if(this._validApiKey) this.requestUpdate();
 
     // Functions and Events
@@ -140,6 +155,8 @@ export class KatapultAuthentication extends LitElement {
     window.open('https://github.com/KatapultDevelopment/katapult-pro-api-documentation/blob/main/v2/DocumentationV2.MD#api-key-generation', '_blank');
   }
   async #checkAPI() {
+    this._apiLoading = true;
+    this.requestUpdate();
     const apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
     const obfuscated = xorEncrypt(apiKey);
     const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value?.trim()?.replace(/\/$/, '') || '';
@@ -166,6 +183,7 @@ export class KatapultAuthentication extends LitElement {
       this._emptyError = true;
       this._apiError = false;
     }
+    this._apiLoading = false;
   }
   async #retrieveWelcomeMessage(obfuscated, apiServer) {
     const fetchData = await fetch(`${apiServer}/api/v2?api_key=${xorDecrypt(obfuscated)}`, {

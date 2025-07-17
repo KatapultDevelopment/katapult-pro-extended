@@ -37,6 +37,7 @@ Extensible web component library for development, built with [Lit](https://lit.d
   </body>
 </html>
 ```
+> **Host:** If `:host` doesn't work, try `:root` instead.
 
 > **Favicon:** Add a favicon to avoid `favicon.ico 404` errors.
 

@@ -307,7 +307,7 @@ export class KatapultToolbar extends LitElement {
           });
           this._pages = fetchData;
           this.requestUpdate();
-        }
+        } else this.#getPages();
       }
     }, 2500);
   }

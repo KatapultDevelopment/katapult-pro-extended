@@ -137,8 +137,8 @@ export const KatapultShoelace = `
         font-size: 30px;
     }
     sl-checkbox[checked]::part(control) {
-        border-color: var(--primary-color);
-        background-color: var(--primary-color);
+        border-color: var(--primary-color, var(--sl-color-gray-600));
+        background-color: var(--primary-color, var(--sl-color-gray-600));
     }
 `;
 
