@@ -143,7 +143,6 @@ export class KatapultAuthentication extends LitElement {
     const apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
     const obfuscated = xorEncrypt(apiKey);
     const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value?.trim()?.replace(/\/$/, '') || '';
-    console.log(apiServer);
     if (obfuscated && apiServer) {
       this._emptyError = false;
       const data = await this.#retrieveWelcomeMessage(obfuscated, apiServer);
@@ -172,7 +171,6 @@ export class KatapultAuthentication extends LitElement {
     const fetchData = await fetch(`${apiServer}/api/v2?api_key=${xorDecrypt(obfuscated)}`, {
       method: 'GET'
     });
-    console.log(fetchData);
     return fetchData;
   }
 }
