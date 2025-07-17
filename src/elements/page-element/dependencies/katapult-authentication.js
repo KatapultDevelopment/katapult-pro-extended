@@ -20,7 +20,8 @@ export class KatapultAuthentication extends LitElement {
   static properties = {
     _validApiKey: {type: Boolean, state: true},
     _apiError: {type: Boolean, state: true},
-    _saveApiData: {type: Boolean}
+    _saveApiData: {type: Boolean},
+    _emptyError: {type: Boolean}
   }
   static styles = [
     unsafeCSS(KatapultShoelace),
@@ -52,8 +53,8 @@ export class KatapultAuthentication extends LitElement {
           id="apiServerInput"
           clearable
           autofocus
-          placeholder="Enter server code"
-          label="API Server"
+          placeholder="Enter server url"
+          label="API Server URL"
           style="margin-bottom: 12px;"
         >
           <sl-icon small library="material" slot="clear-icon" name="clear"></sl-icon>
@@ -80,12 +81,20 @@ export class KatapultAuthentication extends LitElement {
             >
             documentation.
           </p>
-          <p class="helpText" style="margin-bottom: 2px;">The server code is the text in your Katapult Pro url, found between <span style="color: var(--primary-color, blue);">https://</span> and <span style="color: var(--primary-color, blue);">katapultpro.com</span>. If there is nothing there, leave the input empty.</p>
+          <p class="helpText" style="margin-bottom: 2px;">The server url is your Katapult Pro url, starting with <span style="color: var(--primary-color, blue);">https://</span> and ending with <span style="color: var(--primary-color, blue);">.com</span></p>
           ${when(
             this._apiError,
             () => html`
               <p style="color: red; font-size: 14px; text-align: center; margin-top: 12px; margin-bottom: 2px;">
                 Your API Key is invalid or is for a different database. Try again.
+              </p>
+            `
+          )}
+          ${when(
+            this._emptyError,
+            () => html`
+              <p style="color: red; font-size: 14px; text-align: center; margin-top: 12px; margin-bottom: 2px;">
+                You need to fill in all fields.
               </p>
             `
           )}
@@ -113,6 +122,7 @@ export class KatapultAuthentication extends LitElement {
     // Variables
     this._validApiKey = apiLocal?.data ? true : false;
     this._apiError = false;
+    this._emptyError = false;
     if(this._validApiKey) this.requestUpdate();
 
     // Functions and Events
@@ -132,13 +142,16 @@ export class KatapultAuthentication extends LitElement {
   async #checkAPI() {
     const apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
     const obfuscated = xorEncrypt(apiKey);
-    const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value || '';
-    if (obfuscated) {
+    const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value?.trim()?.replace(/\/$/, '') || '';
+    console.log(apiServer);
+    if (obfuscated && apiServer) {
+      this._emptyError = false;
       const data = await this.#retrieveWelcomeMessage(obfuscated, apiServer);
-      if (data?.error == 'INVALID API KEY') {
+      if (data?.status === 404 || data?.status === 401) {
         this._apiError = true;
       }
       else {
+        this._apiError = false;
         if(this._saveApiData) {
           // Calculate 30 days from now
           const now = new Date();
@@ -150,16 +163,17 @@ export class KatapultAuthentication extends LitElement {
         this._validApiKey = true;
       }
       this.requestUpdate();
+    } else {
+      this._emptyError = true;
+      this._apiError = false;
     }
   }
   async #retrieveWelcomeMessage(obfuscated, apiServer) {
-    if (obfuscated) {
-      const database = apiServer ? apiServer + '.' : '';
-      const fetchData = await fetch(`https://${database}katapultpro.com/api/v2?api_key=${xorDecrypt(obfuscated)}`, {
-        method: 'GET'
-      }).then((res) => res.json());
-      return fetchData;
-    }
+    const fetchData = await fetch(`${apiServer}/api/v2?api_key=${xorDecrypt(obfuscated)}`, {
+      method: 'GET'
+    });
+    console.log(fetchData);
+    return fetchData;
   }
 }
 window.customElements.define('katapult-authentication', KatapultAuthentication);

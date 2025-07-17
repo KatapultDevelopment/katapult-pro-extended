@@ -81,9 +81,8 @@ export class KatapultJobDropdown extends LitElement {
     this.dispatchEvent(new CustomEvent('change'));
   }
   async #getJobData(db) {
-    const database = db != '' ? db + '.' : '';
     setTimeout( async () => {
-      const fetchData = await fetch(`https://${database}katapultpro.com/api/v3/jobs?api_key=${this._apiKey}`, {
+      const fetchData = await fetch(`${db}/api/v3/jobs?api_key=${this._apiKey}`, {
         method: 'GET'
       }).then((res) => res.json());
       this._jobData = fetchData.data;

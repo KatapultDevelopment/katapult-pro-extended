@@ -288,14 +288,13 @@ export class KatapultToolbar extends LitElement {
   #openPage(e) {
     const title = e.currentTarget.innerText.toLowerCase();
     const clickedPage = this._pages.filter(page => page.name == title)[0];
-    const urlToVisit = 'https://' + this._currentDb + '.katapultpro.com/' + clickedPage.url;
+    const urlToVisit = this._currentDb + '/' + clickedPage.url;
     window.open(urlToVisit, '_blank');
   }
   async #getPages() {
-    const database = this._currentDb != '' ? this._currentDb + '.' : '';
     setTimeout( async () => {
       if(this._apiKey) {
-        const fetchData = await fetch(`https://${database}katapultpro.com/api/v2/company-data/pages?api_key=${this._apiKey}`, {
+        const fetchData = await fetch(`${this._currentDb}/api/v2/company-data/pages?api_key=${this._apiKey}`, {
           method: 'GET',
         }).then((res) => res.json());
         if(!fetchData.error) {
