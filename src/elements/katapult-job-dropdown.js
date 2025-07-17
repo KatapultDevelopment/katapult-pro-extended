@@ -73,7 +73,7 @@ export class KatapultJobDropdown extends LitElement {
     if (this._apiKey) this.#getJobData(dbLocal?.data);
   }
   getSelectedJob() {
-    return this._currentJobData;
+    return this._currentJobData || {};
   }
   #selectJob(e) {
     const selectedJobData = this._jobData.filter(job => job.name === e.currentTarget.value)[0] || {};
