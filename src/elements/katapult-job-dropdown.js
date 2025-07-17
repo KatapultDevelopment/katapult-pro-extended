@@ -49,9 +49,9 @@ export class KatapultJobDropdown extends LitElement {
 
     // Delete api data from local storage if expired
     const now = new Date();
-    const apiLocal = JSON.parse(localStorage.getItem('apiKey'));
+    const apiLocal = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('apiKey')) : '';
     if(now >= apiLocal?.expiry) localStorage.removeItem('apiKey');
-    const dbLocal = JSON.parse(localStorage.getItem('db'));
+    const dbLocal = localStorage.getItem('db') ? JSON.parse(localStorage.getItem('db')) : '';
     if(now >= dbLocal?.expiry) localStorage.removeItem('db');
 
     // Variables
@@ -70,7 +70,7 @@ export class KatapultJobDropdown extends LitElement {
         this.dispatchEvent(new CustomEvent('change'));
       }
     });
-    if (this._apiKey) this.#getJobData(JSON.parse(localStorage.getItem('db'))?.data);
+    if (this._apiKey) this.#getJobData(dbLocal?.data);
   }
   getSelectedJob() {
     return this._currentJobData;

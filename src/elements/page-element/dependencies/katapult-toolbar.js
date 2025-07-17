@@ -250,9 +250,9 @@ export class KatapultToolbar extends LitElement {
 
     // Delete api data from local storage if expired
     const now = new Date();
-    const apiLocal = JSON.parse(localStorage.getItem('apiKey'));
+    const apiLocal = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('apiKey')) : '';
     if(now >= apiLocal?.expiry) localStorage.removeItem('apiKey');
-    const dbLocal = JSON.parse(localStorage.getItem('db'));
+    const dbLocal = localStorage.getItem('db') ? JSON.parse(localStorage.getItem('db')) : '';
     if(now >= dbLocal?.expiry) localStorage.removeItem('db');
 
     // Variables
@@ -264,7 +264,7 @@ export class KatapultToolbar extends LitElement {
     this._email = '';
     this._gravatarSrc = this.#getGravatarSrc(this._email);
     this._apiKey = apiLocal?.data ? xorDecrypt(apiLocal.data) : '';
-    this._currentDb = JSON.parse(localStorage.getItem('db'))?.data || '';
+    this._currentDb = dbLocal?.data || '';
     if (this._apiKey) this.#getPages();
 
     // Functions and Events

@@ -107,11 +107,11 @@ export class KatapultAuthentication extends LitElement {
 
     // Delete api from local storage if expired
     const now = new Date();
-    const apiLocal = JSON.parse(localStorage.getItem('apiKey'));
+    const apiLocal = localStorage.getItem('apiKey') ? JSON.parse(localStorage.getItem('apiKey')) : '';
     if(now >= apiLocal?.expiry) localStorage.removeItem('apiKey');
 
     // Variables
-    this._validApiKey = JSON.parse(localStorage.getItem('apiKey'))?.data ? true : false;
+    this._validApiKey = apiLocal?.data ? true : false;
     this._apiError = false;
     if(this._validApiKey) this.requestUpdate();
 
