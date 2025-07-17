@@ -1,6 +1,6 @@
 {
   "name": "katapult-pro-extended",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Katapult elements and styles for use in creating website extensions to the platform",
   "type": "module",
   "exports": {
