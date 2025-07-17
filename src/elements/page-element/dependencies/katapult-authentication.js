@@ -163,7 +163,7 @@ export class KatapultAuthentication extends LitElement {
     if (obfuscated && apiServer) {
       this._emptyError = false;
       const data = await this.#retrieveWelcomeMessage(obfuscated, apiServer);
-      if (data?.status === 404 || data?.status === 401) {
+      if (data?.status !== 200) {
         this._apiError = true;
       }
       else {
