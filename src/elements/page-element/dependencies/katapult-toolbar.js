@@ -31,6 +31,7 @@ export class KatapultToolbar extends LitElement {
         supportEmail: {type: String},
 
         _pages: {type: Array, state: true},
+        _extensionPages: {type: Array, state: true},
         _email: {type: String, state: true},
         _gravatarSrc: {type: String, state: true},
         _apiKey: {type: String, state: true, reflect: true},
@@ -192,6 +193,7 @@ export class KatapultToolbar extends LitElement {
             <sl-dropdown id="nine-dot-dropdown" placement="bottom-end">
               <sl-icon-button class="toolbar-icon" pointer library="material" name="apps" slot="trigger"></sl-icon-button>
               <sl-menu>
+                <!-- Non-extension pages -->
                 ${when(
                   this._pages.length > 0,
                   () => html`
@@ -212,13 +214,45 @@ export class KatapultToolbar extends LitElement {
                                   name="${page.icon}"
                                   style="color: ${page.color};"
                                   ></sl-icon>
-                                  ${page.displayName}
+                                  ${page.name}
                               </sl-menu-item>
                         `)}
                     </div>
                 `)}
+                <!-- Extension pages -->
                 ${when(
-                  this._pages.length === 0,
+                  this._extensionPages.length > 0,
+                  () => html`
+                    <div style="width: 100%; margin: 12px 0; height: 16px; display: flex; align-items: center;">
+                      <div style="flex: 1; height: 1px; background-color: #ccc;"></div>
+                      <div style="padding: 0 8px; font-size: 12px; color: #888; white-space: nowrap;">External Links</div>
+                      <div style="flex: 1; height: 1px; background-color: #ccc;"></div>
+                    </div>
+                    <div flex row align-center justify-center style="flex-wrap: wrap; padding: 8px 5px 0 5px;">
+                      ${map(
+                          this._extensionPages,
+                          (page) => 
+                          html`
+                              <sl-menu-item flex column @click=${(e) => this.#openPage(e)}>
+                                  <sl-icon
+                                  nine-dot
+                                  flex
+                                  row
+                                  justify-center
+                                  wrap
+                                  slot="prefix"
+                                  library="material"
+                                  name="${page.icon}"
+                                  style="color: ${page.color};"
+                                  ></sl-icon>
+                                  ${page.name}
+                              </sl-menu-item>
+                        `)}
+                    </div>
+                `)}
+                <!-- No pages -->
+                ${when(
+                  this._pages.length === 0 && this._extensionPages.length === 0,
                   () => html`
                     <div flex row align-center justify-start style="border: 3px solid var(--primary-color, var(--sl-color-gray-500)); border-radius: 15px; margin: 0 8px;">
                       <sl-spinner style="font-size: 40px; --track-width: 4px; --indicator-color: var(--primary-color, var(--sl-color-gray-400)); --track-color: var(--sl-color-gray-200); margin: 8px; margin-left: 12px;"></sl-spinner>
@@ -261,6 +295,7 @@ export class KatapultToolbar extends LitElement {
     this.supportNum = '';
     this.supportEmail = '';
     this._pages = [];
+    this._extensionPages = [];
     this._email = '';
     this._gravatarSrc = this.#getGravatarSrc(this._email);
     this._apiKey = apiLocal?.data ? xorDecrypt(apiLocal.data) : '';
@@ -299,13 +334,14 @@ export class KatapultToolbar extends LitElement {
         }).then((res) => res.json());
         if(!fetchData.error) {
           fetchData.forEach(page => {
-            page.displayName = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
+            page.name = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
             page.icon = page.icon +'_round';
 
             // Update the coloring for project management, since the API stores it as "primary color." Set it to the right color
             if(page.color === 'var(--primary-color)') page.color = '#003e51';
           });
-          this._pages = fetchData;
+          this._extensionPages = fetchData.filter(page => page.isExtension);
+          this._pages = fetchData.filter(page => !page.isExtension);
           this.requestUpdate();
         } else this.#getPages();
       }

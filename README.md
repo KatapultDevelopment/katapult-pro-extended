@@ -2,8 +2,8 @@
 Extensible web component library for development, built with [Lit](https://lit.dev/docs/) and [Shoelace](https://shoelace.style/).
 
 ## Dependencies
-- [Node.js](https://nodejs.org/en/download) 
-- npm (comes with Node.js)
+- [Node.js](https://nodejs.org/en/download) v. 18.0.0+
+- npm (comes with Node.js) v. 8.0.0+
 
 ## Quick Start
 
@@ -14,7 +14,7 @@ Extensible web component library for development, built with [Lit](https://lit.d
     <script type="module">
       import 'katapult-pro-extended/elements/page-element/katapult-page-element.js';
     </script>
-    <!-- Your favicon -->
+    <!-- Your favicon code -->
     <style>
       :host {
         --primary-color: #8BC34A;
@@ -76,22 +76,10 @@ import 'katapult-pro-extended/elements/page-element/katapult-page-element.js';
 import 'katapult-pro-extended/elements/katapult-job-dropdown.js';
 ```
 
-### Non-API Element
-#### `<katapult-dropdown>`
-- Dropdown component for selecting from a list of items (supports filtering).
-- Slots: 
-  - `slot="label"`
-  - `slot="prefix"`
-  - `slot="suffix"`
-  - `slot="help-text"`
-```js
-import 'katapult-pro-extended/elements/katapult-dropdown.js';
-```
-
 ## Katapult Styles
 > **Note:** *Katapult styles are written as javascript modules and exported as CSS using Lit*
 >
-> To use these styles in your own Lit elements, simply import the style module and include using `unsafeCSS()` in your component’s `static styles` array.
+> To use these styles in your own Lit elements, simply import the style module and include it using lit's `unsafeCSS()` in your component’s `static styles` array.
 
 ### KatapultFlex
 - Utility flexbox layout styles for rapid, attribute-based flex layouts.
