@@ -1,6 +1,6 @@
 {
   "name": "katapult-pro-extended",
-  "version": "1.2.5",
+  "version": "1.0.0",
   "description": "Katapult elements and styles for use in creating website extensions to the platform",
   "type": "module",
   "exports": {
@@ -21,7 +21,7 @@
     "build": "rollup -c rollup.config.js",
     "serve": "web-dev-server --node-resolve --open"
   },
-  "license": "GPL-3.0",
+  "license": "Apache-2.0",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
