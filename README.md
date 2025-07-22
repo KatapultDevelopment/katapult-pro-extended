@@ -50,6 +50,7 @@ Extensible web component library for development, built with [Lit](https://lit.d
 - The main wrapper for your webpage. Place content and other Katapult elements inside.
 - Includes a v2 authentication call and a v2 nine-dot call.
   - It's recommended to make any v2 calls over 5 seconds after the user has logged in or the page has loaded.
+- If a user chooses to save their API key for 30 days, it will be stored in `localStorage` under the name `'apiKey'`. Access the API key here with `JSON.parse(localStorage.getItem('apiKey'))` to avoid hardcoding it in your program.
 - Attributes:
   - `supportNum`, `supportEmail`, `companyName`, `logoLink`
 - Slots:
@@ -82,7 +83,7 @@ import 'katapult-pro-extended/elements/katapult-job-dropdown.js';
 ## Katapult Styles
 > **Note:** *Katapult styles are written as javascript modules and exported as CSS using Lit*
 >
-> To use these styles in your own Lit elements, simply import the style module and include it using lit's `unsafeCSS()` in your component’s `static styles` array.
+> To use these styles in your own Lit elements, simply import the style module and include it in your component’s `static styles` array.
 
 ### KatapultFlex
 - Utility flexbox layout styles for rapid, attribute-based flex layouts.
@@ -102,7 +103,7 @@ import { KatapultShoelace } from 'katapult-pro-extended/styles/katapult-shoelace
 ### KatapultShoelaceColors
 - Defines color variables and palettes for Shoelace and Katapult components.
 ```js
-import lightTheme from 'katapult-pro-extended/styles/katapult-shoelace-colors.js';
+import {KatapultShoelaceColors} from 'katapult-pro-extended/styles/katapult-shoelace-colors.js';
 ```
 
 ## API Reference

@@ -1,13 +1,13 @@
 // Polymer
 import '@polymer/font-roboto/roboto.js';
-import '@polymer/paper-styles/color.js';
 
 // Lit
-import {LitElement, html, css, unsafeCSS} from 'lit';
+import {LitElement, html, css} from 'lit';
 
 // Styles
 import { KatapultShoelace } from '../../styles/katapult-shoelace.js';
 import { KatapultScrollbars } from '../../styles/katapult-scrollbars.js';
+import { KatapultShoelaceColors } from '../../styles/katapult-shoelace-colors.js';
 
 // Elements
 import './dependencies/katapult-toolbar.js';
@@ -29,8 +29,9 @@ export class KatapultPageElement extends LitElement {
     logoLink: {type: String}
   }
   static styles = [
-    unsafeCSS(KatapultShoelace),
-    unsafeCSS(KatapultScrollbars),
+    KatapultShoelaceColors,
+    KatapultShoelace,
+    KatapultScrollbars,
     css`
       :root {
         --sl-input-focus-ring-color: none;
@@ -83,7 +84,6 @@ export class KatapultPageElement extends LitElement {
       />
       <!-- Shoelace -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css" />
-      <meta name="theme-color" content="#003E51" />
       <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
     </head>
     <body>

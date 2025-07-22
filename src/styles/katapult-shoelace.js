@@ -1,6 +1,5 @@
-const $_documentContainer = document.createElement('template');
-
-export const KatapultShoelace = `
+import {css} from 'lit';
+export const KatapultShoelace = css`
 // Default styles for the elements
     :host {
         --header-spacing: 16px !important;
@@ -38,14 +37,6 @@ export const KatapultShoelace = `
     sl-input::part(clear-button) {
         width: fit-content;
         padding: 0 4px;
-    }
-    sl-icon {
-        color: var(--primary-color, var(--sl-color-gray-700));
-        font-size: 24px;
-    }
-    sl-icon-button::part(base) {
-        color: var(--primary-color, var(--sl-color-gray-700));
-        font-size: 24px;
     }
     sl-icon-button::part(base):hover {
         color: var(--secondary-color, black) !important;
@@ -136,18 +127,66 @@ export const KatapultShoelace = `
     sl-icon[nine-dot] {
         font-size: 30px;
     }
+    sl-icon[default] {
+        color: var(--primary-color, var(--sl-color-gray-700));
+        font-size: 24px;
+    }
+    sl-icon-button[toolbar]::part(base) {
+        color: var(--primary-color, var(--sl-color-gray-700));
+        font-size: 24px;
+    }
     sl-checkbox[checked]::part(control) {
         border-color: var(--primary-color, var(--sl-color-gray-600));
         background-color: var(--primary-color, var(--sl-color-gray-600));
     }
+// SlSelect Material Style
+    sl-select[look-like-paper-element]::part(combobox) {
+        border: none;
+        --sl-input-placeholder-color: var(--sl-color-neutral-600);
+        --sl-focus-ring-width: 0;
+        background: none;
+    }
+    sl-select[look-like-paper-element]::part(expand-icon) {
+        height: 0;
+        width: 0;
+        border-top: 5px solid var(--sl-color-primary);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+    }
+    sl-dropdown[look-like-paper-element] sl-button::part(base) {
+        border: none;
+        --sl-input-placeholder-color: var(--sl-color-neutral-600);
+        --sl-focus-ring-width: 0;
+        background: none;
+        font-size: 16px;
+        color: var(--primary-text-color);
+        font-weight: normal;
+    }
+    sl-dropdown[look-like-paper-element] sl-button::part(caret) {
+        align-self: center;
+        height: 0;
+        width: 0;
+        border-top: 5px solid var(--sl-color-primary);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+    }
+    /* SlInput Material Style */
+    sl-input[look-like-paper-element]::part(base) {
+        border: none;
+        --sl-focus-ring-width: 0;
+    }
+    sl-input[look-like-paper-element]::part(input) {
+        border-bottom: var(--sl-input-paper-border-bottom-width, 1px) solid var(--sl-color-neutral-900);
+    }
+    sl-input[look-like-paper-element]::part(input):focus {
+        border-bottom: 2px solid var(--sl-color-primary);
+    }
+    /* Katapult Drop Down Material Style */
+    katapult-dropdown[look-like-paper-element]::part(expand-icon) {
+        height: 0;
+        width: 0;
+        border-top: 5px solid var(--sl-color-primary);
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+    }
 `;
-
-$_documentContainer.innerHTML = `<dom-module id="katapult-shoelace">
-  <template>
-    <style>
-      ${KatapultShoelace}
-    </style>
-  </template>
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);

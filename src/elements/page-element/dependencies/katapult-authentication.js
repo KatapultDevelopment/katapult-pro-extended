@@ -1,5 +1,5 @@
 // Lit
-import {LitElement, html, css, unsafeCSS} from 'lit';
+import {LitElement, html, css } from 'lit';
 import { when } from 'lit/directives/when.js';
 
 // Shoelace
@@ -13,9 +13,6 @@ import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 import { KatapultShoelace } from '../../../styles/katapult-shoelace.js';
 import { KatapultFlex } from '../../../styles/katapult-flex.js';
 
-// Other
-import { xorEncrypt, xorDecrypt } from './obfuscation.js';
-
 export class KatapultAuthentication extends LitElement {
   static properties = {
     _validApiKey: {type: Boolean, state: true},
@@ -25,8 +22,8 @@ export class KatapultAuthentication extends LitElement {
     _apiLoading: {type: Boolean}
   }
   static styles = [
-    unsafeCSS(KatapultShoelace),
-    unsafeCSS(KatapultFlex),
+    KatapultShoelace,
+    KatapultFlex,
     css`
       #loginForm::part(panel) {
         max-width: 335px;
@@ -158,11 +155,10 @@ export class KatapultAuthentication extends LitElement {
     this._apiLoading = true;
     this.requestUpdate();
     const apiKey = this.shadowRoot.getElementById('apiKeyInput')?.value;
-    const obfuscated = xorEncrypt(apiKey);
     const apiServer = this.shadowRoot.getElementById('apiServerInput')?.value?.trim()?.replace(/\/$/, '') || '';
-    if (obfuscated && apiServer) {
+    if (apiKey && apiServer) {
       this._emptyError = false;
-      const data = await this.#retrieveWelcomeMessage(obfuscated, apiServer);
+      const data = await this.#retrieveWelcomeMessage(apiKey, apiServer);
       if (data?.status !== 200) {
         this._apiError = true;
       }
@@ -172,10 +168,10 @@ export class KatapultAuthentication extends LitElement {
           // Calculate 30 days from now
           const now = new Date();
           const expiryTime = now.getTime() + (30 * 24 * 60 * 60 * 1000);
-          localStorage.setItem('apiKey', JSON.stringify({data: obfuscated, expiry: expiryTime}));
+          localStorage.setItem('apiKey', JSON.stringify({data: apiKey, expiry: expiryTime}));
           localStorage.setItem('db', JSON.stringify({data: apiServer, expiry: expiryTime}));
         }
-        window.dispatchEvent(new CustomEvent('apiChange', { detail: {key: obfuscated, db: apiServer} }));
+        window.dispatchEvent(new CustomEvent('apiChange', { detail: {key: apiKey, db: apiServer} }));
         this._validApiKey = true;
       }
       this.requestUpdate();
@@ -185,8 +181,8 @@ export class KatapultAuthentication extends LitElement {
     }
     this._apiLoading = false;
   }
-  async #retrieveWelcomeMessage(obfuscated, apiServer) {
-    const fetchData = await fetch(`${apiServer}/api/v2?api_key=${xorDecrypt(obfuscated)}`, {
+  async #retrieveWelcomeMessage(apiKey, apiServer) {
+    const fetchData = await fetch(`${apiServer}/api/v2?api_key=${apiKey}`, {
       method: 'GET'
     });
     return fetchData;

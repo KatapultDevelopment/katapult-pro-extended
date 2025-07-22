@@ -1,10 +1,9 @@
-const $_documentContainer = document.createElement('template');
-
-export const KatapultFlex = `
+import {css} from 'lit';
+export const KatapultFlex = css`
   [flex] {
     display: flex;
   }
-  [column], paper-dialog[flex] {
+  [column] {
     flex-direction: column;
   }
   [overflow-hidden] {
@@ -110,13 +109,3 @@ export const KatapultFlex = `
     width: -webkit-fill-available;
   }
 `;
-
-$_documentContainer.innerHTML = `<dom-module id="katapult-flex">
-  <template>
-    <style>
-      ${KatapultFlex}
-    </style>
-  </template>
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);

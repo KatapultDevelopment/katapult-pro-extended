@@ -1,5 +1,5 @@
 // Lit
-import {LitElement, html, css, unsafeCSS} from 'lit';
+import {LitElement, html, css} from 'lit';
 import { when } from 'lit/directives/when.js';
 import { map } from 'lit/directives/map.js';
 
@@ -19,9 +19,6 @@ import { KatapultFlex } from '../../../styles/katapult-flex.js';
 // Hashing
 import 'spark-md5';
 
-// Other
-import { xorDecrypt } from './obfuscation.js';
-
 // Registers the element
 export class KatapultToolbar extends LitElement {
     static properties = {
@@ -40,8 +37,8 @@ export class KatapultToolbar extends LitElement {
 
   // Styles are applied to the shadow root and scoped to this element
   static styles = [
-    unsafeCSS(KatapultShoelace),
-    unsafeCSS(KatapultFlex),
+    KatapultShoelace,
+    KatapultFlex,
     css`
     :host {
         display: flex;
@@ -164,7 +161,7 @@ export class KatapultToolbar extends LitElement {
           <slot name="right"></slot>
           <div flex row align-center>
             <sl-dropdown id="help-dropdown" placement="bottom-end">
-                <sl-icon-button circle slot="trigger" class="toolbar-icon" pointer library="material" name="help_round"></sl-icon-button>
+                <sl-icon-button toolbar circle slot="trigger" class="toolbar-icon" pointer library="material" name="help_round"></sl-icon-button>
                 ${when(
                     this.supportNum || this.supportEmail, 
                     () => html`
@@ -191,7 +188,7 @@ export class KatapultToolbar extends LitElement {
               </div>
             </sl-dropdown>
             <sl-dropdown id="nine-dot-dropdown" placement="bottom-end">
-              <sl-icon-button class="toolbar-icon" pointer library="material" name="apps" slot="trigger"></sl-icon-button>
+              <sl-icon-button toolbar class="toolbar-icon" pointer library="material" name="apps" slot="trigger"></sl-icon-button>
               <sl-menu>
                 <!-- Non-extension pages -->
                 ${when(
@@ -269,7 +266,7 @@ export class KatapultToolbar extends LitElement {
                   ${when(this._email, () => html`<span style="margin-left: 12px;">${this._email}</span>`)}
                 </div>
                 <sl-button variant="default" style="margin-top: 12px;" @click=${() => this.#signOut()}>
-                  <sl-icon slot="prefix" library="material" name="logout"></sl-icon>
+                  <sl-icon default slot="prefix" library="material" name="logout"></sl-icon>
                   Sign Out
                 </sl-button>
               </sl-menu>
@@ -298,13 +295,13 @@ export class KatapultToolbar extends LitElement {
     this._extensionPages = [];
     this._email = '';
     this._gravatarSrc = this.#getGravatarSrc(this._email);
-    this._apiKey = apiLocal?.data ? xorDecrypt(apiLocal.data) : '';
+    this._apiKey = apiLocal?.data || '';
     this._currentDb = dbLocal?.data || '';
     if (this._apiKey) this.#getPages();
 
     // Functions and Events
     window.addEventListener('apiChange', async (e) => {
-      this._apiKey = xorDecrypt(e.detail?.key);
+      this._apiKey = e.detail?.key;
       this._currentDb = e.detail?.db;
       if (this._apiKey) await this.#getPages();
       else this.requestUpdate();
@@ -336,9 +333,6 @@ export class KatapultToolbar extends LitElement {
           fetchData.forEach(page => {
             page.name = page.name.length > 20 ? page.name.slice(0, 15) + '...' : page.name;
             page.icon = page.icon +'_round';
-
-            // Update the coloring for project management, since the API stores it as "primary color." Set it to the right color
-            if(page.color === 'var(--primary-color)') page.color = '#003e51';
           });
           this._extensionPages = fetchData.filter(page => page.isExtension);
           this._pages = fetchData.filter(page => !page.isExtension);

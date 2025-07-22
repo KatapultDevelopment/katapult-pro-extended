@@ -1,5 +1,5 @@
 // Lit
-import { html, css, LitElement, unsafeCSS } from 'lit';
+import { html, css, LitElement } from 'lit';
 import { styleMap } from 'lit/directives/style-map.js';
 import { when } from 'lit/directives/when.js';
 import { createRef, ref } from 'lit/directives/ref.js';
@@ -13,8 +13,9 @@ import '@shoelace-style/shoelace/dist/components/menu-item/menu-item.js';
 import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 
 // Styles
-import lightTheme from '../styles/katapult-shoelace-colors.js';
 import { KatapultScrollbars } from '../styles/katapult-scrollbars.js';
+import { KatapultShoelace } from '../styles/katapult-shoelace.js';
+import { KatapultShoelaceColors } from '../styles/katapult-shoelace-colors.js';
 
 /** @import { Ref } from 'lit/directives/ref.js' */
 
@@ -65,8 +66,9 @@ export class KatapultDropdown extends LitElement {
   };
 
   static styles = [
-    lightTheme,
-    unsafeCSS(KatapultScrollbars),
+    KatapultShoelaceColors,
+    KatapultShoelace,
+    KatapultScrollbars,
     css`
       /* Add your component styles here */
       :host {
