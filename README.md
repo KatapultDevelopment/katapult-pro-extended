@@ -47,7 +47,9 @@ Extensible web component library for development, built with [Lit](https://lit.d
 
 ### Wrapper Element
 #### `<katapult-page-element>`
-- The main wrapper for your webpage. Place content and other Katapult elements inside
+- The main wrapper for your webpage. Place content and other Katapult elements inside.
+- Includes a v2 authentication call and a v2 nine-dot call.
+  - It's recommended to make any v2 calls over 5 seconds after the user has logged in or the page has loaded.
 - Attributes:
   - `supportNum`, `supportEmail`, `companyName`, `logoLink`
 - Slots:
@@ -71,6 +73,7 @@ import 'katapult-pro-extended/elements/page-element/katapult-page-element.js';
 ### API Element
 #### `<katapult-job-dropdown>`
 - Dropdown for job selection (This is a v3 API call)
+- This call is made as soon as the page loads after login. Make other v3 calls with at least a 50 ms delay.
 - Has function: `getSelectedJob()` that returns the current job's data
 ```js
 import 'katapult-pro-extended/elements/katapult-job-dropdown.js';
