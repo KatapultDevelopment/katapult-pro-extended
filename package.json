@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Katapult elements and styles for use in creating website extensions to the platform",
   "type": "module",
+  "repository": "github:KatapultDevelopment/katapult-pro-extended",
   "exports": {
     ".": "./index.js",
     "./elements/": "./src/elements/",
