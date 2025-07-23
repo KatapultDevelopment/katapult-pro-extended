@@ -1,7 +1,7 @@
 {
-  "name": "katapult-pro-extended",
+  "name": "@katapult-engineering/api",
   "version": "1.0.0",
-  "description": "Katapult elements and styles for use in creating website extensions to the platform",
+  "description": "Katapult api elements and styles for use in creating website extensions to the platform",
   "type": "module",
   "repository": "github:KatapultDevelopment/katapult-pro-extended",
   "exports": {
