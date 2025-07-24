@@ -6,12 +6,6 @@ export const KatapultShoelace = css`
         --body-spacing: 8px 16px !important;
         --footer-spacing: 16px !important;
     }
-    sl-dialog::part(panel) {
-        border-radius: 16px;
-    }
-    sl-dialog::part(body), sl-dialog::part(footer), sl-dialog::part(title) {
-        padding: 16px;
-    }
     sl-button::part(label) {
         font-family: Roboto;
         font-size: 16px;
@@ -52,36 +46,11 @@ export const KatapultShoelace = css`
         background: white;
         border-radius: 16px;
     }
-    sl-alert::part(icon) {
-        color: var(--accent-color, red);
-    }
-    sl-alert::part(base) {
-        border-top-color: var(--accent-color, red);
-    }
     sl-checkbox::part(label) {
         font-family: Roboto !important;
     }
 
 // Attribute styles
-    sl-dialog[no-x]::part(close-button) {
-        display: none;
-    }
-    sl-dialog[no-actions]::part(header-actions) {
-        display: none;
-    }
-    sl-dialog[filled]::part(header) {
-        color: white;
-        border-radius: 16px 16px 0 0;
-        background: var(--primary-color, var(--sl-color-gray-500));
-    }
-    sl-dialog[filled]::part(title) {
-        color: white;
-        border-radius: 16px 16px 0 0;
-        background: var(--primary-color, var(--sl-color-gray-500));
-    }
-    sl-dialog[centered]::part(header) {
-        text-align: center;
-    }
 // Primary Buttons
     sl-button[variant='primary'] {
         background-color: var(--primary-color, var(--sl-color-gray-500));
