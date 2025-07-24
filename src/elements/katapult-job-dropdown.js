@@ -18,9 +18,9 @@ export class KatapultJobDropdown extends LitElement {
         !this._jobNames || this._jobNames.length == 0,
         () => html`
           <katapult-dropdown
-            ?.disabled
-            ?.look-like-paper-element
-            .placeholder=${'Loading...'}
+            disabled
+            look-like-paper-element
+            placeholder="Loading..."
           ></katapult-dropdown>
         `
       )}
@@ -29,11 +29,12 @@ export class KatapultJobDropdown extends LitElement {
         () => html`
           <katapult-dropdown
             id="active-dropdown"
-            ?.hoist
-            ?.autoFilter
-            ?.look-like-paper-element
+            hoist
+            autoFilter
+            look-like-paper-element
+            clearable
+            placeholder="Select a Job"
             .items=${this._jobNames}
-            .placeholder=${'Select a Job'}
             @change=${(e) => this.#selectJob(e)}
           ></katapult-dropdown>
         `

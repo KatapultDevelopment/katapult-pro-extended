@@ -149,7 +149,7 @@ export class KatapultToolbar extends LitElement {
         <!-- Left Container -->
         <div flex row align-center grow justify-start>
           <slot name="left-of-logo"></slot>
-          ${when(this.logoLink, () => html`<img id="logo" src="${this.logoLink}" />`)}
+          ${when(this.logoLink, () => html`<img id="logo" src=${this.logoLink} />`)}
           <slot name="left"></slot>
         </div>
         <!-- Center Container -->
@@ -208,7 +208,7 @@ export class KatapultToolbar extends LitElement {
                                   wrap
                                   slot="prefix"
                                   library="material"
-                                  name="${page.icon}"
+                                  name=${page.icon}
                                   style="color: ${page.color};"
                                   ></sl-icon>
                                   ${page.name}
@@ -239,7 +239,7 @@ export class KatapultToolbar extends LitElement {
                                   wrap
                                   slot="prefix"
                                   library="material"
-                                  name="${page.icon}"
+                                  name=${page.icon}
                                   style="color: ${page.color};"
                                   ></sl-icon>
                                   ${page.name}
@@ -259,10 +259,10 @@ export class KatapultToolbar extends LitElement {
               </sl-menu>
             </sl-dropdown>
             <sl-dropdown placement="bottom-end">
-              <sl-avatar class="toolbar-icon" pointer image="${this._gravatarSrc}" slot="trigger"></sl-avatar>
+              <sl-avatar class="toolbar-icon" pointer .image=${this._gravatarSrc} slot="trigger"></sl-avatar>
               <sl-menu flex column justify-center align-center style="padding: 16px;">
                 <div flex row justify-center align-center>
-                  <sl-avatar pointer image="${this._gravatarSrc}"></sl-avatar>
+                  <sl-avatar pointer .image=${this._gravatarSrc}></sl-avatar>
                   ${when(this._email, () => html`<span style="margin-left: 12px;">${this._email}</span>`)}
                 </div>
                 <sl-button variant="default" style="margin-top: 12px;" @click=${() => this.#signOut()}>
