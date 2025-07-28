@@ -12,7 +12,7 @@ Extensible web component library for development, built with [Lit](https://lit.d
 <html>
   <head>
     <script type="module">
-      import 'katapult-pro-extended/elements/page-element/katapult-page-element.js';
+      import '@katapult-engineering/api-extensions/elements/page-element/katapult-page-element.js';
     </script>
     <!-- Your favicon code -->
     <style>
@@ -68,7 +68,7 @@ Extensible web component library for development, built with [Lit](https://lit.d
   ```
 
 ```js
-import 'katapult-pro-extended/elements/page-element/katapult-page-element.js';
+import '@katapult-engineering/api-extensions/elements/page-element/katapult-page-element.js';
 ```
 
 ### API Element
@@ -77,7 +77,7 @@ import 'katapult-pro-extended/elements/page-element/katapult-page-element.js';
 - This call is made as soon as the page loads after login. Make other v3 calls with at least a 50 ms delay.
 - Has function: `getSelectedJob()` that returns the current job's data
 ```js
-import 'katapult-pro-extended/elements/katapult-job-dropdown.js';
+import '@katapult-engineering/api-extensions/elements/katapult-job-dropdown.js';
 ```
 
 ## Katapult Styles
@@ -88,22 +88,22 @@ import 'katapult-pro-extended/elements/katapult-job-dropdown.js';
 ### KatapultFlex
 - Utility flexbox layout styles for rapid, attribute-based flex layouts.
 ```js
-import { KatapultFlex } from 'katapult-pro-extended/styles/katapult-flex.js';
+import { KatapultFlex } from '@katapult-engineering/api-extensions/styles/katapult-flex.js';
 ```
 ### KatapultScrollbars
 - Customizes scrollbar appearance for a consistent look.
 ```js
-import { KatapultScrollbars } from 'katapult-pro-extended/styles/katapult-scrollbars.js';
+import { KatapultScrollbars } from '@katapult-engineering/api-extensions/styles/katapult-scrollbars.js';
 ```
 ### KatapultShoelace
 - Overrides shoelace defaults and extends Shoelace component styles to match Katapult branding, including attribute-based style customizations.
 ```js
-import { KatapultShoelace } from 'katapult-pro-extended/styles/katapult-shoelace.js';
+import { KatapultShoelace } from '@katapult-engineering/api-extensions/styles/katapult-shoelace.js';
 ```
 ### KatapultShoelaceColors
 - Defines color variables and palettes for Shoelace and Katapult components.
 ```js
-import {KatapultShoelaceColors} from 'katapult-pro-extended/styles/katapult-shoelace-colors.js';
+import {KatapultShoelaceColors} from '@katapult-engineering/api-extensions/styles/katapult-shoelace-colors.js';
 ```
 
 ## API Reference

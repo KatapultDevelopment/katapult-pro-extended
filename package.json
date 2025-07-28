@@ -1,5 +1,5 @@
 {
-  "name": "@katapult-engineering/api",
+  "name": "@katapult-engineering/api-extensions",
   "version": "1.0.0",
   "description": "Katapult api elements and styles for use in creating website extensions to the platform",
   "type": "module",
