@@ -54,7 +54,7 @@ Extensible web component library for development, built with [Lit](https://lit.d
 - Attributes:
   - String `supportNum` - your client support phone number
   - String `supportEmail` - your client support email address
-  - String companyName` - your company name
+  - String `companyName` - your company name
   - String `logoLink` - your logo url
 - Slots:
   - `slot="toolbar-left-of-logo"`
