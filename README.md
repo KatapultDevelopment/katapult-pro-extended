@@ -52,10 +52,10 @@ Extensible web component library for development, built with [Lit](https://lit.d
   - It's recommended to make any v2 calls over 5 seconds after the user has logged in or the page has loaded.
 - If a user chooses to save their API key for 30 days, it will be stored in `localStorage` under the name `'apiKey'`. Access the API key here with `JSON.parse(localStorage.getItem('apiKey'))` to avoid hardcoding it in your program.
 - Attributes:
-  - `supportNum` - a string phone number
-  - `supportEmail` - a string email address
-  - `companyName` - a string company name
-  - `logoLink` - a string url
+  - String `supportNum` - your client support phone number
+  - String `supportEmail` - your client support email address
+  - String companyName` - your company name
+  - String `logoLink` - your logo url
 - Slots:
   - `slot="toolbar-left-of-logo"`
   - `slot="toolbar-left"`
