@@ -3,7 +3,7 @@ import { LitElement, html } from 'lit';
 import { when } from 'lit/directives/when.js';
 
 // Elements
-import './katapult-dropdown.js';
+import '@katapult-engineering/elements/katapult-searchable-dropdown.js';
 
 export class KatapultJobDropdown extends LitElement {
   static properties = {
@@ -17,17 +17,17 @@ export class KatapultJobDropdown extends LitElement {
       ${when(
         !this._jobNames || this._jobNames.length == 0,
         () => html`
-          <katapult-dropdown
+          <katapult-searchable-dropdown
             disabled
             look-like-paper-element
             placeholder="Loading..."
-          ></katapult-dropdown>
+          ></katapult-searchable-dropdown>
         `
       )}
       ${when(
         this._jobNames?.length > 0,
         () => html`
-          <katapult-dropdown
+          <katapult-searchable-dropdown
             id="active-dropdown"
             hoist
             autoFilter
@@ -36,7 +36,7 @@ export class KatapultJobDropdown extends LitElement {
             placeholder="Select a Job"
             .items=${this._jobNames}
             @change=${(e) => this.#selectJob(e)}
-          ></katapult-dropdown>
+          ></katapult-searchable-dropdown>
         `
       )}
     `

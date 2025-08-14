@@ -4,16 +4,19 @@ import '@polymer/font-roboto/roboto.js';
 // Lit
 import {LitElement, html, css} from 'lit';
 
+// Internal note - the Katapult Page Element is meant to be a "quick start" and easy option. As new api elements are added
+// they should be imported to this file, so that they can be freely used without needed to separately import them on the user end
+// NOTE: because of this, you must be cautious with the styles these elements apply/their style modules, as too general of styles will have a ripple effect
+
 // Styles
-import { KatapultShoelace } from '../../styles/katapult-shoelace.js';
-import { KatapultScrollbars } from '../../styles/katapult-scrollbars.js';
-import { KatapultShoelaceColors } from '../../styles/katapult-shoelace-colors.js';
+import { KatapultShoelace } from '../styles/katapult-shoelace.js';
+import { KatapultScrollbars } from '../styles/katapult-scrollbars.js';
+import { KatapultShoelaceColors } from '../styles/katapult-shoelace-colors.js';
 
 // Elements
-import './dependencies/katapult-toolbar.js';
-import './dependencies/katapult-authentication.js';
-import '../katapult-dropdown.js';
-import '../katapult-job-dropdown.js';
+import '../../element-dependencies/page-element-dependencies/katapult-toolbar.js';
+import '../../element-dependencies/page-element-dependencies/katapult-authentication.js';
+import './katapult-job-dropdown.js';
 
 // Shoelace Icons
 import { registerIconLibrary } from '@shoelace-style/shoelace/dist/utilities/icon-library.js';

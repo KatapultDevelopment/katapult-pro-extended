@@ -10,8 +10,8 @@ import '@shoelace-style/shoelace/dist/components/icon/icon.js';
 import '@shoelace-style/shoelace/dist/components/checkbox/checkbox.js';
 
 // Styles
-import { KatapultShoelace } from '../../../styles/katapult-shoelace.js';
-import { KatapultFlex } from '../../../styles/katapult-flex.js';
+import { KatapultShoelace } from '../../public/styles/katapult-shoelace.js';
+import { KatapultFlex } from '../../public/styles/katapult-flex.js';
 
 export class KatapultAuthentication extends LitElement {
   static properties = {

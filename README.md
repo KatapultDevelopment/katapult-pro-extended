@@ -12,7 +12,7 @@ Extensible web component library for development, built with [Lit](https://lit.d
 <html>
   <head>
     <script type="module">
-      import '@katapult-engineering/api-extensions/elements/page-element/katapult-page-element.js';
+      import '@katapult-engineering/api-extensions/elements/katapult-page-element.js';
     </script>
     <!-- Your favicon code -->
     <style>
@@ -71,7 +71,7 @@ Extensible web component library for development, built with [Lit](https://lit.d
   ```
 
 ```js
-import '@katapult-engineering/api-extensions/elements/page-element/katapult-page-element.js';
+import '@katapult-engineering/api-extensions/elements/katapult-page-element.js';
 ```
 
 ### API Element

@@ -6,12 +6,12 @@
   "repository": "github:KatapultDevelopment/katapult-pro-extended",
   "exports": {
     ".": "./index.js",
-    "./elements/": "./src/elements/",
-    "./styles/": "./src/styles/"
+    "./elements/": "./src/public/elements/",
+    "./styles/": "./src/public/styles/"
   },
   "main": "./index.js",
   "dependencies": {
-    "@lit-labs/virtualizer": "^2.1.0",
+    "@katapult-engineering/elements": "^1.0.0",
     "@polymer/font-roboto": "^3.0.2",
     "@shoelace-style/shoelace": "^2.20.1",
     "lit": "^3.3.0",
