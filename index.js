@@ -1,1 +1,1 @@
-export * from '../katapult-pro-extended/src/public/';
+export * from '../katapult-pro-extended/public/';

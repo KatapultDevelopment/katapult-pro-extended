@@ -6,8 +6,8 @@
   "repository": "github:KatapultDevelopment/katapult-pro-extended",
   "exports": {
     ".": "./index.js",
-    "./elements/": "./src/public/elements/",
-    "./styles/": "./src/public/styles/"
+    "./elements/": "./public/elements/",
+    "./styles/": "./public/styles/"
   },
   "main": "./index.js",
   "dependencies": {

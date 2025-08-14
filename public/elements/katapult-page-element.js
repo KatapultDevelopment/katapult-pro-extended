@@ -14,8 +14,8 @@ import { KatapultScrollbars } from '../styles/katapult-scrollbars.js';
 import { KatapultShoelaceColors } from '../styles/katapult-shoelace-colors.js';
 
 // Elements
-import '../../element-dependencies/page-element-dependencies/katapult-toolbar.js';
-import '../../element-dependencies/page-element-dependencies/katapult-authentication.js';
+import '../../src/element-dependencies/page-element-dependencies/katapult-toolbar.js';
+import '../../src/element-dependencies/page-element-dependencies/katapult-authentication.js';
 import './katapult-job-dropdown.js';
 
 // Shoelace Icons
